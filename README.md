@@ -77,7 +77,19 @@ CS180 project 4 repo
   The third test case creates a second seller (Seller 2). 
   The fourth test case creates a second customer (Customer 2). 
   The fifth test case has Customer 2 login, send a message ("hi") to Seller 2 via the selecting a customer option, and then exiting.
-  The sixth test case has Customer 2 login, see the "You have NEW Messages" indicator, select to view messages, select the message from Seller 1 to view, then
+  The sixth test case has 
+    1. Customer 2 login, 
+    2. See the "You have NEW Messages" indicator, 
+    3. Select to view messages, 
+    4. Select the message from Seller 1 to view
+    5. Send a new message
+        --Search for a seller to message using their email
+        --Select Seller 1 to message from results
+        --Send "greetings"
+    6. Select to Edit Message
+        --Select the message to Seller 1
+
+        
 
 
 
