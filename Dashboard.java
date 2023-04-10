@@ -1,8 +1,20 @@
 package pj4;
 import java.util.*;
+/**
+ * Dashboard class
+ *
+ * This class embodies all live interaction between the program and the user. The dashboard class utilizes the scanner for input
+ * in order to execute the remaining methods. This class also houses the main method which is the only runnable program in the project.
+ * Addional static void methods allow for the manipulation of program's users.
+ *
+ * @author
+ * @version Apr 10, 2022
+ *
+ *
+ */
 
 public class Dashboard {
-
+    // the main method utilizes scanner and other methods to run.
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Welcome to the messaging platform!");
@@ -44,7 +56,7 @@ public class Dashboard {
         }
 
     }
-
+    // This method represents the menu given the user is a seller
     private static boolean sellerMenu(Scanner scanner, Seller seller) {
         System.out.printf("1. Send a new message\n2. View messages\n3. Edit message\n4. Delete message\n" +
                 "5. Block a User\n6. View Store Statistics\n7. Create a Store\n8. Delete Account\n9. Exit\n10. Export");
@@ -112,7 +124,7 @@ public class Dashboard {
         }
         return true;
     }
-
+    // This method represents the menu given that the user is a customer
     public static boolean customerMenu(Scanner scanner, Customer c) {
         System.out.printf("1. Send a new message\n2. View messages\n3. Edit message\n4. Delete message\n" +
                 "5. Block a User\n6. View Store Statistics\n7. Delete Account\n8. Exit\n9. Export\n");
@@ -175,7 +187,7 @@ public class Dashboard {
         }
         return true;
     }
-
+    // this method allows for desires messages between users to be viewed
     private static void viewMessages (Scanner scanner, User user) {
         ArrayList<Message> msgs = Messenger.getMessagesForUser(user);
 
@@ -201,7 +213,7 @@ public class Dashboard {
             }
         }
     }
-
+    // this method allows for desired messages to be pulled from msgs ArrayList and viewed.
     private static void printMessages(ArrayList<Message> msgs) {
         Collections.sort(msgs);
         int count = 1;
@@ -211,7 +223,7 @@ public class Dashboard {
                     x.getReceiver().getName(), x.isRead() ? "N" : "Y");
         }
     }
-
+    // this method allows for desired viewable messages to be removed
     private static void deleteMessage (Scanner scanner, User user) {
         ArrayList<Message> msgs = Messenger.getMessagesForUser(user);
 
@@ -235,7 +247,7 @@ public class Dashboard {
             }
         }
     }
-
+    // this message allows for desired messages to be changed or edited
     private static void editMessage (Scanner scanner, User user) {
         ArrayList<Message> msgs = Messenger.getMessagesForUser(user);
 
@@ -266,7 +278,7 @@ public class Dashboard {
             }
         }
     }
-
+    // given that a user is a customer, this method allows for messages to be sent to desired users
     private static void sendNewMailCustomer(Scanner scanner, User user) {
         int choice;
         System.out.println("Would you like to:");
@@ -341,7 +353,7 @@ public class Dashboard {
             }
         }
     }
-
+    // given that a user is a seller, this method allows for messages to be sent to desired users
     private static void sendNewMailSeller (Scanner scanner, User user) {
         int choice;
         System.out.println("Would you like to:");
@@ -415,7 +427,7 @@ public class Dashboard {
             }
         }
     }
-
+    // this method allows for the creation of new accounts based on user input
     private static boolean createAccount(Scanner scanner) {
         int input;
         boolean invalidinput;
@@ -449,7 +461,7 @@ public class Dashboard {
         }
         return invalidinput;
     }
-
+    // this method allows for desired users to be blocked
     private static void blockUser (Scanner scanner, User user) {
         ArrayList<User> users;
 
@@ -475,7 +487,7 @@ public class Dashboard {
             System.out.println("The block was set!");
         }
     }
-
+    // this method allows for desired accounts to be deleted
     private static boolean deleteAccount (Scanner scanner, User user) {
         while (true) {
             System.out.println("Are you sure you want to delete your account?");
@@ -493,7 +505,7 @@ public class Dashboard {
             }
         }
     }
-
+    // this method allows for stores to be added to the desired seller's list
     private static void addStore(Scanner scanner, Seller seller) {
         while (true) {
             System.out.println("What would you like your store to be named?");
