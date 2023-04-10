@@ -1,4 +1,3 @@
-package pj4;
 import java.util.*;
 
 public class Dashboard {
@@ -47,7 +46,7 @@ public class Dashboard {
 
     private static boolean sellerMenu(Scanner scanner, Seller seller) {
         System.out.printf("1. Send a new message\n2. View messages\n3. Edit message\n4. Delete message\n" +
-                "5. Block a User\n6. View Store Statistics\n7. Create a Store\n8. Delete Account\n9. Exit\n");
+                "5. Block a User\n6. View Store Statistics\n7. Create a Store\n8. Delete Account\n9. Exit\n10. Export");
         int choice = scanner.nextInt();
         scanner.nextLine();
         switch (choice) {
@@ -104,13 +103,18 @@ public class Dashboard {
                 return false;
                 //break;
             }
+            case 10: {
+                System.out.println("Please input a file path to write to ending in .csv");
+                String input = scanner.nextLine();
+                Messenger.convertToCSV(input, seller);
+            }
         }
         return true;
     }
 
     public static boolean customerMenu(Scanner scanner, Customer c) {
         System.out.printf("1. Send a new message\n2. View messages\n3. Edit message\n4. Delete message\n" +
-                "5. Block a User\n6. View Store Statistics\n7. Delete Account\n8. Exit\n");
+                "5. Block a User\n6. View Store Statistics\n7. Delete Account\n8. Exit\n9. Export\n");
         int choice = scanner.nextInt();
         scanner.nextLine();
         switch (choice) {
@@ -143,7 +147,6 @@ public class Dashboard {
                 // newly added
                 /*
                 Seller seller = new Seller("","","","");
-
                 Store store = new Store(seller, seller.getStoreName());
                 if (sortStats == 1) {
                     store.printCustomerDashboardSorted(c);
@@ -151,7 +154,6 @@ public class Dashboard {
                     store.printCustomerDashboard(c);
                 }
                 // added finish
-
                  */
                 break;
             }
@@ -163,6 +165,11 @@ public class Dashboard {
             case 8: {
                 return false;
                 //break;
+            }
+            case 9: {
+                System.out.println("Please input a file path to write to ending in .csv");
+                String input = scanner.nextLine();
+                Messenger.convertToCSV(input, c);
             }
         }
         return true;
