@@ -187,6 +187,7 @@ public class RunLocalTest {
             assertEquals("Make sure your store name is valid and all inputs are valid.",
                     expected.trim(), output.trim());
         }
+
         @Test(timeout = 1000)
         public void testExpectedFour() {
             // Set the input
@@ -222,22 +223,24 @@ public class RunLocalTest {
         @Test(timeout = 1000)
         public void testExpectedFive() {
             // Set the input
-            String input = "1" + System.lineSeparator() +
-                    "Krusty " + System.lineSeparator() +
-                    "krusty@gmail.com" + System.lineSeparator() +
-                    "krusty123" + System.lineSeparator() +
-                    "2" + System.lineSeparator() + "The Krusty Krab" +
-                    System.lineSeparator();
+            String input = "2" + System.lineSeparator() +
+                    "spongebob@gmail.com" + System.lineSeparator() +
+                    "spongebob123" + System.lineSeparator() +
+                    "1" + System.lineSeparator() +
+                    "1" + System.lineSeparator() + "2" +
+                    System.lineSeparator() + "Hello Mr. Krabs!";
 
             // Pair the input with the expected result
             String expected = "Welcome to the messaging platform!" + System.lineSeparator() +
                     "Would you like to:\n1. Create an Account\n2. Sign Into an Account" + System.lineSeparator() +
-                    "What is your name?" + System.lineSeparator() +
                     "What is your email address?" + System.lineSeparator() +
-                    "What would you like your password to be?" + System.lineSeparator() +
-                    "Would you like to be:\n1. A Customer\n2. A Seller" + System.lineSeparator() +
-                    "What would you like your first store to be named?" + System.lineSeparator() +
-                    "Seller Created" + System.lineSeparator();
+                    "What is your password?" + System.lineSeparator() +
+                    "What action would you like to take:\n1. Send a new message\n2. View messages\n3. Edit message\n" +
+                    "4. Delete message\n5. Block a User\n6. View Store Statistics\n7. Delete Account\n8. Exit" + System.lineSeparator() +
+                    "Would you like to:\n1. Select a store to message\n2. Search for a seller to message" + System.lineSeparator() +
+                    "Please select a store to message:" + System.lineSeparator() +
+                    "What message would you like to send?" + System.lineSeparator() + "Your message is sent! Thank you." +
+                    System.lineSeparator();
 
 
             // Runs the program with the input values
@@ -255,10 +258,11 @@ public class RunLocalTest {
         }
 
 
-
     }
 
 
 }
+
+
 
 
