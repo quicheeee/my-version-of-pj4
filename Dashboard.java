@@ -59,7 +59,7 @@ public class Dashboard {
     // This method represents the menu given the user is a seller
     private static boolean sellerMenu(Scanner scanner, Seller seller) {
         System.out.printf("1. Send a new message\n2. View messages\n3. Edit message\n4. Delete message\n" +
-                "5. Block a User\n6. View Store Statistics\n7. Create a Store\n8. Delete Account\n9. Exit\n10. Export");
+                "5. Block a User\n6. View Store Statistics\n7. Create a Store\n8. Delete Account\n9. Exit\n10. Export\n");
         int choice = scanner.nextInt();
         scanner.nextLine();
         switch (choice) {

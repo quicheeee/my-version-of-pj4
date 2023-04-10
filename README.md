@@ -3,7 +3,7 @@ CS180 project 4 repo
 
 1. How to compile and run the Code.
 
-	To run the code first you need to just download the file, open in intelliJ and press run from the Dashboard.java file.
+	To run the code first you need to just download the files, open in intelliJ and press run from the Dashboard.java file.
 
 2. Who submitted what
 	
@@ -70,6 +70,13 @@ CS180 project 4 repo
   
   	This exception is thrown when an attempted sign in lacks the correct password or email. It has been tested in cases where access cannot
 	be granted due to incorrect password, incorrect email, or when both are incorrect.
+
+  Test Cases
+  The first test case creates a seller (Seller 1). 
+  The second test case creates a customer (Customer 1). 
+  The third test case creates a second seller (Seller 2). 
+  The fourth test case creates a second customer (Customer 2). 
+  The fifth test case has Seller 1 login, send a message to Seller 2
 
 
 
