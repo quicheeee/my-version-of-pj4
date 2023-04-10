@@ -7,7 +7,7 @@ CS180 project 4 repo
 
 2. Who submitted what
 	
-	Student 1 - Submitted Report on Brightspace. Student 2 - Submitted Vocareum workspace.
+	Meha Kavoori - Submitted Report on Brightspace. Student 2 - Submitted Vocareum workspace.
 
 3. Class Descriptions
 	
