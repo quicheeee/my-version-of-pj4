@@ -1,4 +1,5 @@
-package pj4;
+
+/*package pj4;
 import java.io.*;
 import java.util.*;
 
@@ -42,7 +43,7 @@ public class Store2 implements Serializable {
         messages.add(message);
     }
     */
-
+/*
     public int getNumMessages() {
         return messages.size();
     }
@@ -132,7 +133,7 @@ public class Store2 implements Serializable {
         return numMessagesReceived;
     }
      */
-
+/*
     public Map<Seller, Integer> getNumSellerMessages() {
         Map<Seller, Integer> numSellerMessages = new HashMap<>();
         for (Message message : messages) {
@@ -208,7 +209,7 @@ public class Store2 implements Serializable {
                         messagesReceivedSorted.get(messagesReceivedSorted.size() - 1));
             }
         } */
-        for (Store store : customer.getStoreList()) {
+        /*for (Store store : customer.getStoreList()) {
             String convo = Conversation.getConversation(store, customer);
             int numMessagesReceived = Conversation.getSellerMsgsInConvo(convo);
             messagesReceivedSorted.add(numMessagesReceived);
@@ -387,3 +388,5 @@ public class Store2 implements Serializable {
 
 
 }
+
+         */
