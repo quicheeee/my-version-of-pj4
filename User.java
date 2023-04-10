@@ -1,6 +1,17 @@
 package pj4;
 import java.io.*;
 import java.util.*;
+/**
+ * User
+ *
+ * This class creates a basic user for the application, with a name, email, and password associated.
+ * It writes the users to file for storage after the program is terminated.
+ *
+ * @author Amelia Williams, Meha Kavoori, Anish Puri, Tyler Barnett
+ *
+ * @version 04/10/2023
+ *
+ */
 public class User implements Serializable {
     private String name; //the name of the user
     private String email; //the email address of the user
@@ -17,10 +28,6 @@ public class User implements Serializable {
         this.email = email;
         this.password = password;
         blockedUsers = new ArrayList<User>();
-        //userID = getNumCreated() + 1;
-        //blockedBy = new ArrayList<User>();
-        //invisibleTo = new ArrayList<User>();
-        //conversations = new ArrayList<Messenger2> ();
     }
 
     //returns the User's email
