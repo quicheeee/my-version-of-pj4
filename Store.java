@@ -2,12 +2,21 @@ package pj4;
 
 import java.io.*;
 import java.util.*;
-
+/**
+ * Store Class
+ *
+ * The Store Class represents a Store object. The Store class has methods which allow users to
+ * get, set, and access a list of Stores.
+ *
+ * @author
+ * @version 4/10/2023
+ *
+ */
 public class Store implements Serializable {
-    private Seller seller;
-    private List<Messenger2> messages;
-    private String storeName;
-
+    private Seller seller; // the store's seller
+    private List<Messenger2> messages; // the store's list of messages
+    private String storeName; // the store's name
+    // returns list of all store objects given all users
     public static ArrayList<Store> getAllStores() {
         ArrayList<Store> all = new ArrayList<Store>();
         for (User u : User.getUsers()) {
@@ -17,7 +26,7 @@ public class Store implements Serializable {
         }
         return all;
     }
-
+    // returns all store obects associated with inputted user
     public static ArrayList<Store> getAllStoresForUser (User u) {
         ArrayList<Store> all = new ArrayList<Store>();
 
@@ -29,7 +38,7 @@ public class Store implements Serializable {
         }
         return all;
     }
-
+    // Store constructor
     public Store(Seller seller, String storeName) {
 
         this.seller = seller;
@@ -37,28 +46,28 @@ public class Store implements Serializable {
         this.storeName = storeName;
 
     }
-
+    // returns seller in Store
     public Seller getSeller() {
         return seller;
     }
-
+    // returns store name
     public String getStoreName() {
         return storeName;
     }
-
+    // sets the store name
     public void setStoreName(String storeName) {
         this.storeName = storeName;
     }
-
+    // adds message to list of the Store's messages
     public void addMessages(Messenger2 message) {
         messages.add(message);
     }
-
+    // returns the number of messages in store messages list
     public int getNumMessages() {
         return messages.size();
     }
 
-
+    // returns number of messages sent by specified customer
     public int getNumMessagesSentByCus(Customer customer) {
         int count = 0;
         for (Messenger2 message : messages) {
@@ -69,7 +78,7 @@ public class Store implements Serializable {
         }
         return count;
     }
-
+    // returns number of messages sent by specified seller
     public int getNumMessagesSentBySell(Seller seller) {
         int count = 0;
         for (Messenger2 message : messages) {
@@ -80,7 +89,7 @@ public class Store implements Serializable {
         }
         return count;
     }
-
+    // returns list of store;s customers
     public List<Customer> getCustomers() {
         //not sure if needed but puts the customers into list --> might delete later
         List<Customer> customers = new ArrayList<>();
@@ -90,7 +99,7 @@ public class Store implements Serializable {
         return customers;
 
     }
-
+    // returns map of most common words said by customer
     public Map<String, Integer> getMostCommonWordsCust() {
         Map<String, Integer> commonWordsCust = new HashMap<>();
         for (Messenger2 message : messages) {
@@ -102,7 +111,7 @@ public class Store implements Serializable {
         }
         return commonWordsCust;
     }
-
+    // returns most common words said by seller
     public Map<String, Integer> getMostCommonWordsSell() {
         Map<String, Integer> commonWordsSell = new HashMap<>();
         for (Messenger2 message : messages) {
@@ -114,7 +123,7 @@ public class Store implements Serializable {
         }
         return commonWordsSell;
     }
-
+    // returns total customer messages
     public Map<Customer, Integer> getNumCustomerMessages() {
         Map<Customer, Integer> numCustomerMessages = new HashMap<>();
         for (Messenger2 message : messages) {
@@ -137,7 +146,7 @@ public class Store implements Serializable {
         return numMessagesSent;
     }
      */
-
+    // returns the messages that have recieved by desired store
     public int getMessagesReceivedByStore() {
         int numMessagesReceived = 0;
         for (Messenger2 message : messages) {
@@ -148,7 +157,7 @@ public class Store implements Serializable {
         return numMessagesReceived;
 
     }
-
+    // returns a map of the number of seller messages
     public Map<Seller, Integer> getNumSellerMessages() {
         Map<Seller, Integer> numSellerMessages = new HashMap<>();
         for (Messenger2 message : messages) {
