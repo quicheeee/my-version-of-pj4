@@ -1,18 +1,41 @@
+package pj4;
+
 import java.io.*;
 import java.util.*;
 
 public class Store implements Serializable {
     private Seller seller;
-    private List<Conversation> messages;
+    private List<Messenger2> messages;
     private String storeName;
-    private static final long serialVersionUID = 0;
+
+    public static ArrayList<Store> getAllStores() {
+        ArrayList<Store> all = new ArrayList<Store>();
+        for (User u : User.getUsers()) {
+            if (u instanceof Seller) {
+                all.addAll(((Seller) u).getListOfStores());
+            }
+        }
+        return all;
+    }
+
+    public static ArrayList<Store> getAllStoresForUser (User u) {
+        ArrayList<Store> all = new ArrayList<Store>();
+
+        for (User temp : User.getUsers()) {
+            if (temp instanceof Seller) {
+                if (!(temp.getBlockedUsers().contains(u) || u.getBlockedUsers().contains(temp)))
+                    all.addAll(((Seller) temp).getListOfStores());
+            }
+        }
+        return all;
+    }
 
     public Store(Seller seller, String storeName) {
 
         this.seller = seller;
         this.messages = new ArrayList<>();
         this.storeName = storeName;
-        newStore(storeName, seller);
+
     }
 
     public Seller getSeller() {
@@ -27,10 +50,9 @@ public class Store implements Serializable {
         this.storeName = storeName;
     }
 
-   /* public void addMessages(Messenger2 message) {
+    public void addMessages(Messenger2 message) {
         messages.add(message);
     }
-    */
 
     public int getNumMessages() {
         return messages.size();
@@ -39,7 +61,7 @@ public class Store implements Serializable {
 
     public int getNumMessagesSentByCus(Customer customer) {
         int count = 0;
-        for (Conversation message : messages) {
+        for (Messenger2 message : messages) {
             // gets the number of messages sent by the customer
             if (message.getCustomer() == customer) {
                 count++;
@@ -50,7 +72,7 @@ public class Store implements Serializable {
 
     public int getNumMessagesSentBySell(Seller seller) {
         int count = 0;
-        for (Conversation message : messages) {
+        for (Messenger2 message : messages) {
             //gets number of messages sent by seller
             if (message.getSeller() == seller) {
                 count++;
@@ -62,36 +84,40 @@ public class Store implements Serializable {
     public List<Customer> getCustomers() {
         //not sure if needed but puts the customers into list --> might delete later
         List<Customer> customers = new ArrayList<>();
-        for (Conversation message : messages) {
+        for (Messenger2 message : messages) {
             customers.add(message.getCustomer());
         }
         return customers;
 
     }
 
-
-    public Map<String, Integer> getMostCommonWords() {
-        Map<String, Integer> commonWordsSell = new HashMap<>();
-        for (Conversation message : messages) {
+    public Map<String, Integer> getMostCommonWordsCust() {
+        Map<String, Integer> commonWordsCust = new HashMap<>();
+        for (Messenger2 message : messages) {
             // there should be a getContent method in messages that stores the
-            ArrayList<String> messageList = message.getMsgsInConvo();
-            ArrayList<String> wordList = new ArrayList<String>();
-            for (int i = 0; i < messageList.size(); i++) {
-                String[] words = messageList.get(i).split(" ");
-                for (String s : words) {
-                    wordList.add(s);
-                }
-            }
-            for (String word : wordList) {
-                commonWordsSell.put(word, commonWordsSell.getOrDefault(word, 0) + 1);
-            }
+            //String[] words = message.getMessageList().split(" ");
+            //for (String word : words) {
+            //    commonWordsCust.put(word, commonWordsCust.getOrDefault(word, 0) + 1);
+            //}
+        }
+        return commonWordsCust;
+    }
+
+    public Map<String, Integer> getMostCommonWordsSell() {
+        Map<String, Integer> commonWordsSell = new HashMap<>();
+        for (Messenger2 message : messages) {
+            // there should be a getContent method in messages that stores the
+            //String[] words = message.getMessageList().split(" ");
+            //for (String word : words) {
+            //    commonWordsSell.put(word, commonWordsSell.getOrDefault(word, 0) + 1);
+            //}
         }
         return commonWordsSell;
     }
 
     public Map<Customer, Integer> getNumCustomerMessages() {
         Map<Customer, Integer> numCustomerMessages = new HashMap<>();
-        for (Conversation message : messages) {
+        for (Messenger2 message : messages) {
             Customer sender = message.getCustomer();
             if (sender instanceof Customer) {
                 numCustomerMessages.put(sender, numCustomerMessages.getOrDefault(sender, 0) + 1);
@@ -99,29 +125,33 @@ public class Store implements Serializable {
         }
         return numCustomerMessages;
     }
+
+
     /* public int getMessagesSentToStore() {
         int numMessagesSent = 0;
+
         for (Messenger2 m : messages) {
             numMessagesSent = m.msgFromCustToStore(User.findUserWithEmail(customer.getEmail()), getStoreName());
+
         }
         return numMessagesSent;
     }
      */
 
-    /*public int getMessagesReceivedByStore() {
+    public int getMessagesReceivedByStore() {
         int numMessagesReceived = 0;
         for (Messenger2 message : messages) {
-            if (message.getSender() == this.getStoreName() && message.getRecipient() == message.getCustomer()) {
-                numMessagesReceived++;
-            }
+            //if (message.getSender() == this.getStoreName() && message.getRecipient() == message.getCustomer()) {
+            //    numMessagesReceived++;
+            //}
         }
         return numMessagesReceived;
+
     }
-     */
 
     public Map<Seller, Integer> getNumSellerMessages() {
         Map<Seller, Integer> numSellerMessages = new HashMap<>();
-        for (Conversation message : messages) {
+        for (Messenger2 message : messages) {
             Seller sender = message.getSeller();
             if (sender instanceof Seller) {
                 numSellerMessages.put(sender, getNumSellerMessages().getOrDefault(sender, 0) + 1);
@@ -132,7 +162,7 @@ public class Store implements Serializable {
 
     public List<Customer> CustomersSortedNumMessages() {
         List<Customer> customers = new ArrayList<>();
-        for (Conversation message : messages) {
+        for (Messenger2 message : messages) {
             Customer sender = message.getCustomer();
             if (sender instanceof Customer && !customers.contains(sender)) {
                 customers.add(sender);
@@ -144,31 +174,34 @@ public class Store implements Serializable {
     }
 
     public List<String> SortedCustCommonWords() {
-        List<String> commonWords = new ArrayList<>((Collection) getMostCommonWords());
+        List<String> commonWords = new ArrayList<>((Collection) getMostCommonWordsCust());
         Collections.sort(commonWords, Collections.reverseOrder());
         return commonWords;
     }
 
     public void printCustomerDashboard(Customer customer) {
-
+        //  Map<Customer, Integer> customers = getNumCustomerMessages();
+        // Map<String, Integer> commonWords = getMostCommonWordsSell();
+        // getStoreName method needs to be created that gets the name of each specific Store
+        //for (Store s : seller.getListOfStores()) {
         System.out.println("Dashboard for customer");
         System.out.println("----------------");
-        List<Store> storesByMessagesReceived = new ArrayList<>(customer.getStoreList());
+        //TODO
+        //List<Store> storesByMessagesReceived = new ArrayList<>(Customer.storeList);
+        List<Store> storesByMessagesReceived = new ArrayList<Store>();
         List<Store> storesByMessagesSent = new ArrayList<>();
         System.out.println("List of stores by messages received:");
         for (Store store : storesByMessagesReceived) {
-            //  int numMessagesReceived = store.getMessagesReceivedByStore();
-            String convo = Conversation.getConversation(store,customer);
-            int numMessagesReceived = Conversation.getSellerMsgsInConvo(convo);
+            int numMessagesReceived = store.getMessagesReceivedByStore();
             if (numMessagesReceived > 0) {
                 System.out.println(store.getSeller() + "(" + store.getStoreName() +
-                        "): " + numMessagesReceived + "messages");
+                        "):" + numMessagesReceived + "messages");
             }
         }
         System.out.println();
         System.out.println("List of stores by number of messages sent by customer: ");
-        for (Conversation m : messages) {
-            int numMessagesSent = m.getCustomerMsgsInConvo();
+        for (Messenger2 m : messages) {
+            int numMessagesSent = m.msgFromCustToStore((Customer) User.findUserWithEmail(customer.getEmail()), this);
             if (numMessagesSent > 0) {
                 System.out.println(getSeller() + "(" + getStoreName() +
                         ")" + numMessagesSent + "messages");
@@ -178,55 +211,26 @@ public class Store implements Serializable {
     }
 
     public void printCustomerDashboardSorted(Customer customer) {
-        //List<Customer> customers = CustomersSortedNumMessages();
-        //Map<String, Integer> commonWords = getMostCommonWords();
-        List<Integer> messagesReceivedSorted = new ArrayList<>();
-        List<Integer> messagesSentSorted = new ArrayList<>();
-        System.out.println("Dashboard for customer");
+        List<Customer> customers = CustomersSortedNumMessages();
+        Map<String, Integer> commonWords = getMostCommonWordsSell();
+        // getStoreName method needs to be created that gets the name of each specific Store
+        System.out.println("Dashboard for store " + getStoreName());
         System.out.println("----------------");
-        System.out.println("List of stores by messages received: ");
-       /* for (int i = 0; i < customer.getStoreList().size(); i++) {
-            String convo = Conversation.getConversation(customer.getStoreList().get(i), customer);
-            int numMessagesReceived = Conversation.getSellerMsgsInConvo(convo);
-            messagesReceivedSorted.add(numMessagesReceived);
-            messagesReceivedSorted.sort(Comparator.reverseOrder());
-            if (numMessagesReceived > 0) {
-                System.out.println(store.getSeller() + "(" + store.getStoreName() + "): " +
-                        messagesReceivedSorted.get(messagesReceivedSorted.size() - 1));
-            }
-        } */
-        for (Store store : customer.getStoreList()) {
-            String convo = Conversation.getConversation(store, customer);
-            int numMessagesReceived = Conversation.getSellerMsgsInConvo(convo);
-            messagesReceivedSorted.add(numMessagesReceived);
-            messagesReceivedSorted.sort(Comparator.reverseOrder());
-            if (numMessagesReceived > 0) {
-                System.out.println(store.getSeller() + "(" + store.getStoreName() + "): " +
-                        messagesReceivedSorted.get(messagesReceivedSorted.size() - 1));
-            }
-        }
-        System.out.println();
-        System.out.println("List of stores by number of messages sent by customer: ");
-        for (Conversation m : messages) {
-            int numMessagesSent = m.getCustomerMsgsInConvo();
-            messagesSentSorted.add(numMessagesSent);
-            messagesSentSorted.sort(Comparator.reverseOrder());
-            if (numMessagesSent > 0) {
-                System.out.println(getSeller() + "(" + getStoreName() + "): " +
-                        messagesSentSorted.get(messagesSentSorted.size() - 1));
-            }
-        }
+        System.out.println("Customers by message count: ");
 
+        // for (Customer customer : customers) {
+        // int messageCount =
 
+        // }
     }
 
     public void printSellerDashboard(Seller seller) {
         Map<Customer, Integer> customers = getNumCustomerMessages();
-        Map<String, Integer> commonWords = getMostCommonWords();
+        Map<String, Integer> commonWords = getMostCommonWordsSell();
         for (Store s : seller.getListOfStores()) {
             System.out.println("Store Dashboard - " + s.getStoreName());
             System.out.println("----------------");
-            System.out.println("Total messages: " + s.getNumCustomerMessages());
+            System.out.println("Total messages: " + s.getStoreName());
             System.out.println("List of customers: " + getCustomers());
             System.out.println("Customer Message Counts:");
             Map<Customer, Integer> customerMessagecounts = getNumCustomerMessages();
@@ -234,10 +238,10 @@ public class Store implements Serializable {
             //sorts the Message entries from the greatest amount to least amount
             //customerMessageEntries.sort(Map.Entry.comparingByValue(Collections.reverseOrder()));
             for (Map.Entry<Customer, Integer> entry : customerMessageEntries) {
-                System.out.println(entry.getKey().getUserID() + ":" + entry.getValue());
+                //System.out.println(entry.getKey().getUserID() + ":" + entry.getValue());
             }
             System.out.println("Most Common Words: ");
-            Map<String, Integer> commonWordsCust = getMostCommonWords();
+            Map<String, Integer> commonWordsCust = getMostCommonWordsCust();
             for (Map.Entry<String, Integer> entry : commonWordsCust.entrySet()) {
                 System.out.println(entry.getKey() + ":" + entry.getValue());
             }
@@ -246,7 +250,7 @@ public class Store implements Serializable {
 
     public void printSellerDashboardSorted(Seller seller) {
         List<Customer> customers = CustomersSortedNumMessages();
-        Map<String, Integer> commonWords = getMostCommonWords();
+        Map<String, Integer> commonWords = getMostCommonWordsSell();
         for (Store s : seller.getListOfStores()) {
             System.out.println("Store Dashboard - " + s.getStoreName());
             System.out.println("----------------");
@@ -261,58 +265,26 @@ public class Store implements Serializable {
                 System.out.println(entry.getKey().getEmail() + ":" + entry.getValue());
             }
             System.out.println("Most Common Words: ");
-            Map<String, Integer> commonWordsCust = getMostCommonWords();
+            Map<String, Integer> commonWordsCust = getMostCommonWordsCust();
             for (Map.Entry<String, Integer> entry : commonWordsCust.entrySet()) {
                 System.out.println(entry.getKey() + ":" + entry.getValue());
             }
         }
     }
 
-    public boolean newStore(String name, Seller seller) {
+    public static boolean newStore(String name, Seller seller) {
         File list = new File("stores.ser");
         ArrayList<Store> stores = Store.listStores(list, Store.getNumStoresCreated());
-        for (Store s : stores) {
-            if (s.getStoreName().equals(name)) {
+        for(Store s: stores) {
+            if(s.getStoreName().equals(name)){
                 System.out.println("Store Name Taken");
                 return false;
             }
         }
-        stores.add(this);
+        Store store = new Store(seller, name);
+        stores.add(store);
         Store.setNumStoresCreated(Store.getNumStoresCreated() + 1);
         Store.writeStores(stores, list);
-        return true;
-    }
-
-    public static Store findStoreWithName(String name){
-        try{
-            File stores = new File("stores.ser");
-            ArrayList<Store> stores2 = listStores(stores, getNumStoresCreated());
-
-            for(Store s: stores2) {
-                if(s.getStoreName().equals(name)) {
-                    return s;
-                }
-            }
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    public static boolean removeStore(String name, Seller seller) {
-        File list = new File("stores.ser");
-        ArrayList<Store> stores = Store.listStores(list, Store.getNumStoresCreated());
-        for (Store s : stores) {
-            if (s.getStoreName().equals(name)) {
-                stores.remove(s);
-                Store.setNumStoresCreated(Store.getNumStoresCreated() - 1);
-                Store.writeStores(stores, list);
-                return true;
-            } else {
-                System.out.println("The store you want to remove does not exist!");
-                return false;
-            }
-        }
         return true;
     }
 
@@ -321,7 +293,7 @@ public class Store implements Serializable {
         try {
             FileInputStream fis = new FileInputStream(f);
             ObjectInputStream ois = new ObjectInputStream(fis);
-            for (int i = 0; i < fileLength; i++) {
+            for (int i = 0; i < fileLength; i++){
                 Store st = (Store) ois.readObject();
                 stores.add(st);
             }
@@ -331,39 +303,36 @@ public class Store implements Serializable {
         return stores;
     }
 
-    public static int getNumStoresCreated() {
+    public static int getNumStoresCreated(){
         File f = new File("numStoresCreated.txt");
-        try {
+        try{
             FileReader fr = new FileReader(f);
             BufferedReader bfr = new BufferedReader(fr);
-            int i = Integer.parseInt(bfr.readLine());
-            bfr.close();
-            fr.close();
-            return i;
-        } catch (Exception e) {
+            return Integer.parseInt(bfr.readLine());
+        } catch(Exception e) {
             e.printStackTrace();
             return 0;
         }
     }
 
-    public static void setNumStoresCreated(int i) {
-        File f = new File("numStoresCreated.txt");
-        try {
+    public static void setNumStoresCreated(int i){
+        File f = new File ("numStoresCreated.txt");
+        try{
             FileWriter fw = new FileWriter(f);
             PrintWriter pw = new PrintWriter(fw);
             pw.println(i);
             pw.close();
-        } catch (Exception e) {
+        } catch(Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void writeStores(ArrayList<Store> stores, File f) {
-        try {
+    public static void writeStores(ArrayList<Store> stores, File f){
+        try{
             FileOutputStream fos = new FileOutputStream(f);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
 
-            for (Store s1 : stores) {
+            for(Store s1: stores) {
                 oos.writeObject(s1);
             }
             oos.close();
