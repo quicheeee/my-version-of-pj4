@@ -79,24 +79,6 @@ public class User implements Serializable {
         return null;
     }
 
-/*
-    public static User findUser(int userID){
-        try{
-            File accounts = new File("accounts.ser");
-            ArrayList<User> users = listUsers(accounts, getNumCreated());
-
-            for(User u: users) {
-                if(u.getUserID() == userID) {
-                    return u;
-                }
-            }
-        } catch(Exception e){
-            e.printStackTrace();
-        }
-        return null;
-    }
-*/
-
     //a static method used to identify a User object from the associated email address
     public static User findUserWithEmail(String email){
         try{
@@ -228,10 +210,6 @@ public class User implements Serializable {
             	
             }
 
-//            for (int i = 0; i < fileLength; i++){
-//                User u = (User) ois.readObject();
-//                users.add(u);
-//            }
         } catch (Exception e) {
             e.printStackTrace();
         }
