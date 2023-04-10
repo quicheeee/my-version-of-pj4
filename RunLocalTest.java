@@ -12,6 +12,7 @@ import org.junit.rules.Timeout;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
+import org.junit.Test;
 
 import javax.swing.*;
 import java.io.*;
@@ -51,6 +52,8 @@ public class RunLocalTest {
      * @author Meha Kavoori
      * @version 4/10/2023
      */
+
+
     public static class TestCase {
         private final PrintStream originalOutput = System.out;
         private final InputStream originalSysin = System.in;
@@ -83,7 +86,7 @@ public class RunLocalTest {
             System.setIn(testIn);
         }
 
-
+        @Test(timeout = 1000)
         public void testExpectedOne() {
             // Set the input
             String input = "1" + System.lineSeparator() +
