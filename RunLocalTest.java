@@ -98,33 +98,14 @@ public class RunLocalTest {
 
             // Pair the input with the expected result
             String expected = "Welcome to the messaging platform!" + System.lineSeparator() +
-                    "Would you like to:\n1. Create an Account\n2. Sign Into an Account\n" + System.lineSeparator() +
+                    "Would you like to:\n1. Create an Account\n2. Sign Into an Account" + System.lineSeparator() +
                     "What is your name?" + System.lineSeparator() +
                     "What is your email address?" + System.lineSeparator() +
                     "What would you like your password to be?" + System.lineSeparator() +
-                    "Would you like to be:%n1. A Customer%n2. A Seller%n" + System.lineSeparator() +
+                    "Would you like to be:\n1. A Customer\n2. A Seller" + System.lineSeparator() +
                     "What would you like your first store to be named?" + System.lineSeparator() +
                     "Seller Created" + System.lineSeparator();
-                    /*+
-                    String.format(MAZE_VALUES,1) + System.lineSeparator() +
-                    TREASURE_LOCATION + System.lineSeparator() +
-                    READY + System.lineSeparator() +
-                    String.format(CURRENT_POSITION,0,0) + System.lineSeparator() +
-                    MOVE_SELECT + System.lineSeparator() +
-                    "1. " + MOVES[0] + System.lineSeparator() +
-                    "2. " + MOVES[1] + System.lineSeparator() +
-                    "3. " + MOVES[2] + System.lineSeparator() +
-                    "4. " + MOVES[3] + System.lineSeparator() +
-                    String.format(CURRENT_POSITION,1,0) + System.lineSeparator() +
-                    MOVE_SELECT + System.lineSeparator() +
-                    "1. " + MOVES[0] + System.lineSeparator() +
-                    "2. " + MOVES[1] + System.lineSeparator() +
-                    "3. " + MOVES[2] + System.lineSeparator() +
-                    "4. " + MOVES[3] + System.lineSeparator() +
-                    TREASURE_FOUND + System.lineSeparator() +
-                    FAREWELL + System.lineSeparator();
 
-                     */
 
             // Runs the program with the input values
             receiveInput(input);
@@ -139,98 +120,144 @@ public class RunLocalTest {
             assertEquals("Make sure your store name is valid and all inputs are valid.",
                     expected.trim(), output.trim());
         }
-/*
+
         @Test(timeout = 1000)
         public void testExpectedTwo() {
             // Set the input
-            String input = "1,1" + System.lineSeparator() +
-                    "true" + System.lineSeparator() +
-                    "0,0" + System.lineSeparator() +
-                    "No" + System.lineSeparator();
+            String input = "1" + System.lineSeparator() +
+                    "Karen " + System.lineSeparator() +
+                    "karen@gmail.com" + System.lineSeparator() +
+                    "karen123" + System.lineSeparator() +
+                    "1" + System.lineSeparator();
 
             // Pair the input with the expected result
-            String expected = WELCOME + System.lineSeparator() +
-                    INITIALIZE_MAZE + System.lineSeparator() +
-                    MAZE_DIMENSIONS + System.lineSeparator() +
-                    String.format(MAZE_VALUES,0) + System.lineSeparator() +
-                    TREASURE_LOCATION + System.lineSeparator() +
-                    READY + System.lineSeparator() +
-                    FAREWELL + System.lineSeparator();
+            String expected = "Welcome to the messaging platform!" + System.lineSeparator() +
+                    "Would you like to:\n1. Create an Account\n2. Sign Into an Account" + System.lineSeparator() +
+                    "What is your name?" + System.lineSeparator() +
+                    "What is your email address?" + System.lineSeparator() +
+                    "What would you like your password to be?" + System.lineSeparator() +
+                    "Would you like to be:\n1. A Customer\n2. A Seller" + System.lineSeparator() +
+                    "Customer Created" + System.lineSeparator();
 
             // Runs the program with the input values
             receiveInput(input);
-            MazeNavigator.main(new String[0]);
+            Dashboard.main(new String[0]);
 
             // Retrieves the output from the program
             String output = getOutput();
 
             // Trims the output and verifies it is correct.
-            expected = expected.replaceAll("\r\n","\n");
-            output = output.replaceAll("\r\n","\n");
-            assertEquals("Make sure players can exit before starting the game!",
+            expected = expected.replaceAll("\r\n", "\n");
+            output = output.replaceAll("\r\n", "\n");
+            assertEquals("Make sure the email is not taken and  all inputs are valid.",
                     expected.trim(), output.trim());
         }
 
         @Test(timeout = 1000)
         public void testExpectedThree() {
             // Set the input
-            String input = "2,2" + System.lineSeparator() +
-                    "true,false" + System.lineSeparator() +
-                    "true,false" + System.lineSeparator() +
-                    "1,0" + System.lineSeparator() +
-                    "Yes" + System.lineSeparator() +
-                    "Right" + System.lineSeparator() +
-                    "Left" + System.lineSeparator() +
-                    "Down" + System.lineSeparator();
+            String input = "1" + System.lineSeparator() +
+                    "Krusty " + System.lineSeparator() +
+                    "krusty@gmail.com" + System.lineSeparator() +
+                    "krusty123" + System.lineSeparator() +
+                    "2" + System.lineSeparator() + "The Krusty Krab" +
+                    System.lineSeparator();
 
             // Pair the input with the expected result
-            String expected = WELCOME + System.lineSeparator() +
-                    INITIALIZE_MAZE + System.lineSeparator() +
-                    MAZE_DIMENSIONS + System.lineSeparator() +
-                    String.format(MAZE_VALUES,0) + System.lineSeparator() +
-                    String.format(MAZE_VALUES,1) + System.lineSeparator() +
-                    TREASURE_LOCATION + System.lineSeparator() +
-                    READY + System.lineSeparator() +
-                    String.format(CURRENT_POSITION,0,0) + System.lineSeparator() +
-                    MOVE_SELECT + System.lineSeparator() +
-                    "1. " + MOVES[0] + System.lineSeparator() +
-                    "2. " + MOVES[1] + System.lineSeparator() +
-                    "3. " + MOVES[2] + System.lineSeparator() +
-                    "4. " + MOVES[3] + System.lineSeparator() +
-                    INVALID_MOVE + System.lineSeparator() +
-                    String.format(CURRENT_POSITION,0,0) + System.lineSeparator() +
-                    MOVE_SELECT + System.lineSeparator() +
-                    "1. " + MOVES[0] + System.lineSeparator() +
-                    "2. " + MOVES[1] + System.lineSeparator() +
-                    "3. " + MOVES[2] + System.lineSeparator() +
-                    "4. " + MOVES[3] + System.lineSeparator() +
-                    INVALID_MOVE + System.lineSeparator() +
-                    String.format(CURRENT_POSITION,0,0) + System.lineSeparator() +
-                    MOVE_SELECT + System.lineSeparator() +
-                    "1. " + MOVES[0] + System.lineSeparator() +
-                    "2. " + MOVES[1] + System.lineSeparator() +
-                    "3. " + MOVES[2] + System.lineSeparator() +
-                    "4. " + MOVES[3] + System.lineSeparator() +
-                    TREASURE_FOUND + System.lineSeparator() +
-                    FAREWELL + System.lineSeparator();
+            String expected = "Welcome to the messaging platform!" + System.lineSeparator() +
+                    "Would you like to:\n1. Create an Account\n2. Sign Into an Account" + System.lineSeparator() +
+                    "What is your name?" + System.lineSeparator() +
+                    "What is your email address?" + System.lineSeparator() +
+                    "What would you like your password to be?" + System.lineSeparator() +
+                    "Would you like to be:\n1. A Customer\n2. A Seller" + System.lineSeparator() +
+                    "What would you like your first store to be named?" + System.lineSeparator() +
+                    "Seller Created" + System.lineSeparator();
+
 
             // Runs the program with the input values
             receiveInput(input);
-            MazeNavigator.main(new String[0]);
+            Dashboard.main(new String[0]);
 
             // Retrieves the output from the program
             String output = getOutput();
 
             // Trims the output and verifies it is correct.
-            expected = expected.replaceAll("\r\n","\n");
-            output = output.replaceAll("\r\n","\n");
-            assertEquals("Make sure players can navigate the maze successfully, as well as handle invalid moves!",
+            expected = expected.replaceAll("\r\n", "\n");
+            output = output.replaceAll("\r\n", "\n");
+            assertEquals("Make sure your store name is valid and all inputs are valid.",
                     expected.trim(), output.trim());
         }
+        @Test(timeout = 1000)
+        public void testExpectedFour() {
+            // Set the input
+            String input = "1" + System.lineSeparator() +
+                    "Spongebob " + System.lineSeparator() +
+                    "spongebob@gmail.com" + System.lineSeparator() +
+                    "spongebob123" + System.lineSeparator() +
+                    "1" + System.lineSeparator();
+
+            // Pair the input with the expected result
+            String expected = "Welcome to the messaging platform!" + System.lineSeparator() +
+                    "Would you like to:\n1. Create an Account\n2. Sign Into an Account" + System.lineSeparator() +
+                    "What is your name?" + System.lineSeparator() +
+                    "What is your email address?" + System.lineSeparator() +
+                    "What would you like your password to be?" + System.lineSeparator() +
+                    "Would you like to be:\n1. A Customer\n2. A Seller" + System.lineSeparator() +
+                    "Customer Created" + System.lineSeparator();
+
+            // Runs the program with the input values
+            receiveInput(input);
+            Dashboard.main(new String[0]);
+
+            // Retrieves the output from the program
+            String output = getOutput();
+
+            // Trims the output and verifies it is correct.
+            expected = expected.replaceAll("\r\n", "\n");
+            output = output.replaceAll("\r\n", "\n");
+            assertEquals("Make sure the email is not taken and  all inputs are valid.",
+                    expected.trim(), output.trim());
+        }
+
+        @Test(timeout = 1000)
+        public void testExpectedFive() {
+            // Set the input
+            String input = "1" + System.lineSeparator() +
+                    "Krusty " + System.lineSeparator() +
+                    "krusty@gmail.com" + System.lineSeparator() +
+                    "krusty123" + System.lineSeparator() +
+                    "2" + System.lineSeparator() + "The Krusty Krab" +
+                    System.lineSeparator();
+
+            // Pair the input with the expected result
+            String expected = "Welcome to the messaging platform!" + System.lineSeparator() +
+                    "Would you like to:\n1. Create an Account\n2. Sign Into an Account" + System.lineSeparator() +
+                    "What is your name?" + System.lineSeparator() +
+                    "What is your email address?" + System.lineSeparator() +
+                    "What would you like your password to be?" + System.lineSeparator() +
+                    "Would you like to be:\n1. A Customer\n2. A Seller" + System.lineSeparator() +
+                    "What would you like your first store to be named?" + System.lineSeparator() +
+                    "Seller Created" + System.lineSeparator();
+
+
+            // Runs the program with the input values
+            receiveInput(input);
+            Dashboard.main(new String[0]);
+
+            // Retrieves the output from the program
+            String output = getOutput();
+
+            // Trims the output and verifies it is correct.
+            expected = expected.replaceAll("\r\n", "\n");
+            output = output.replaceAll("\r\n", "\n");
+            assertEquals("Make sure your store name is valid and all inputs are valid.",
+                    expected.trim(), output.trim());
+        }
+
+
+
     }
 
- */
-    }
 
 }
 
