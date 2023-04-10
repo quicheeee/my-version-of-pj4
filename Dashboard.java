@@ -78,7 +78,15 @@ public class Dashboard {
                 scanner.nextLine();
                 
                 // ADD STORE STATS IMPLEMENTATION
+                Store store = new Store(seller, seller.getStoreName());
                 
+                scanner.nextLine();
+                if (sortStats == 1) {
+                    store.printSellerDashboardSorted(seller);
+                } else if (sortStats == 2) {
+                    store.printSellerDashboard(seller);
+                }
+                // end of added
                 break;
             }
             case 7 : {
@@ -128,6 +136,17 @@ public class Dashboard {
                 System.out.println("1. Yes%n2. No");
                 int sortStats = scanner.nextInt();
                 scanner.nextLine();
+                
+                // newly added
+                Seller seller = new Seller("","","","");
+
+                Store store = new Store(seller, seller.getStoreName());
+                if (sortStats == 1) {
+                    store.printCustomerDashboardSorted(c);
+                } else if (sortStats == 2) {
+                    store.printCustomerDashboard(c);
+                }
+                // added finish
                 break;
             }
             case 7: {
