@@ -76,7 +76,8 @@ CS180 project 4 repo
   The second test case creates a customer (Customer 1). 
   The third test case creates a second seller (Seller 2). 
   The fourth test case creates a second customer (Customer 2). 
-  The fifth test case has Seller 1 login, send a message to Seller 2
+  The fifth test case has Seller 1 login, send a message ("hi") to Customer 2 via the selecting a customer option, and then exiting.
+  The sixth test case has Customer 2 login, 
 
 
 
