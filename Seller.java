@@ -10,6 +10,7 @@ public class Seller extends User
     private ArrayList<Store> listOfStores;
 
     private static final long serialVersionUID = 6387730094462016452L;
+    private String storeName;
 
 
     public Seller(String name, String email, String password) {
@@ -24,6 +25,7 @@ public class Seller extends User
             if (temp.getStoreName().equals(storeName))
                 throw new IllegalArgumentException("Duplicate Store Name");
         }
+        this.storeName = storeName;
 
         Store st = new Store(this, storeName);
         listOfStores.add(st);
@@ -32,6 +34,14 @@ public class Seller extends User
 
     public void setCustomerList(Customer[] customerList) {
         this.customerList = customerList;
+    }
+
+    public String getStoreName() {
+        return storeName;
+    }
+
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
     }
 
     public ArrayList<Store> getListOfStores() {
@@ -130,4 +140,4 @@ public class Seller extends User
 //        public Message newMessage() //in progress
 
 
-    }
+}
