@@ -150,7 +150,7 @@ public class Messenger2 implements Serializable {
     }
 
     // returns messages in longer Arraylist conversations when given specific customer and seller
-    public ArrayList<String> getMsgsInConvo(Customer c, Seller s) {
+    public static ArrayList<String> getMsgsInConvo(Customer c, Seller s) {
         ArrayList<String> words = new ArrayList<>();
         for (Store s1 : s.getListOfStores()) {
             for (String s2 : Messenger2.getConversation(c, s1).getVend2cust()) {

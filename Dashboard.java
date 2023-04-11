@@ -137,7 +137,7 @@ public class Dashboard {
                     case 10: {
                         System.out.println("Please input a file path to write to ending in .csv");
                         String input = scanner.nextLine();
-                        Messenger.convertToCSV(input, seller);
+                        writeToFile(scanner, input, seller);
                         invalidinput = false;
                         break;
                     }
@@ -216,7 +216,7 @@ public class Dashboard {
                 case 9: {
                     System.out.println("Please input a file path to write to ending in .csv");
                     String input = scanner.nextLine();
-                    Messenger.convertToCSV(input, c);
+                    writeToFile(scanner, input, c);
                 }
                 default: {
                     System.out.println("Invalid Input! Please enter a number 1-10.");
@@ -289,6 +289,63 @@ public class Dashboard {
             }
         }
     }
+    private static void writeToFile (Scanner scanner, String fileName, User user) {
+        if(user instanceof Customer) {
+            Customer c = (Customer) user;
+            ArrayList<Store> stores = Store.getAllStoresForUser(user);
+            if (stores.size() == 0)
+                System.out.println("No conversations with stores exist to write to file");
+            else {
+                int count = 1;
+                for (Store st : stores)
+                    System.out.println(count++ + ". " + st.getStoreName());
+
+                while (true) {
+                    System.out.printf("Please select the customer for the store you'd like to print to file\n");
+                    int num = scanner.nextInt();
+                    scanner.nextLine();
+
+                    if ((num > stores.size()) || (num <= 0)) {
+                        System.out.println("Invalid Input");
+                        continue;
+                    } else {
+                        Messenger.convertToCSVForConvo(fileName, c, stores.get(num - 1).getSeller());
+                        System.out.println("Written to file! Thank you.");
+                        break;
+                    }
+                }
+            }
+        } else {
+            if(user instanceof Seller) {
+                Seller s = (Seller) user;
+                ArrayList<User> users = User.getCustomersByUser(user);
+                if (users.size() == 0)
+                    System.out.println("No conversations with other customers exist to write to file");
+                else {
+                    int count = 1;
+                    for (User u : users)
+                        System.out.println(count++ + ". " + u.getEmail());
+
+                    while (true) {
+                        System.out.printf("Please select the customer for the conversation you'd like to print to file\n");
+                        int num = scanner.nextInt();
+                        scanner.nextLine();
+
+                        if ((num > users.size()) || (num <= 0)) {
+                            System.out.println("Invalid Input");
+                            continue;
+                        } else {
+
+                            Messenger.convertToCSVForConvo(fileName, (Customer) users.get(num - 1), s);
+                            System.out.println("File has been written to! Thank you.");
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     // this message allows for desired messages to be changed or edited
     private static void editMessage (Scanner scanner, User user) {
         ArrayList<Message> msgs = Messenger.getMessagesForUser(user);
