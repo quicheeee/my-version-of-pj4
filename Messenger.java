@@ -150,7 +150,7 @@ public class Messenger {
         }
         return false;
     }
-    // things method takes given user's messages and adds headers, and adds them to a String[]
+    // this method takes given user's messages and adds headers, and adds them to a String[]
     public static List<String[]> createCsvData(User u) {
         List<String[]> list = new ArrayList<>();
         String [] headers = {"Timestamp", "Sender", "Receiver", "Message"};
@@ -161,7 +161,7 @@ public class Messenger {
         }
         return list;
     }
-
+    // method takes given customer and seller data and adds it to a String[] with headers
     public static List<String[]> createCsvDataForConvo(Customer c, Seller s){
         List<String[]> list = new ArrayList<>();
         String [] headers = {"Timestamp", "Sender", "Receiver", "Message"};
@@ -198,7 +198,7 @@ public class Messenger {
 
         }
     }
-
+    // method converts desired file to a csv file
     public static void convertToCSVForConvo (String fileName, Customer c, Seller s2){
         File csvOutput = new File(fileName);
         try{
