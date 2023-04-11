@@ -20,8 +20,17 @@ public class Dashboard {
         System.out.println("Welcome to the messaging platform!");
         boolean invalidinput = true;
         while(invalidinput){
-            System.out.printf("Would you like to:\n1. Create an Account\n2. Sign Into an Account\n");
-            int input = Integer.parseInt(scanner.nextLine());
+            int input = 0;
+            do{
+                invalidinput = false;
+                System.out.printf("Would you like to:\n1. Create an Account\n2. Sign Into an Account\n");
+                try {
+                    input = Integer.parseInt(scanner.nextLine());
+                } catch (NumberFormatException nfe) {
+                   System.out.println("Invalid Input! Please enter 1 or 2.");
+                   invalidinput = true;
+                }
+            } while(invalidinput);
             if(input == 1) {
                 invalidinput = createAccount(scanner);
             } else if (input == 2) {
@@ -58,70 +67,91 @@ public class Dashboard {
     }
     // This method represents the menu given the user is a seller
     private static boolean sellerMenu(Scanner scanner, Seller seller) {
-        System.out.printf("1. Send a new message\n2. View messages\n3. Edit message\n4. Delete message\n" +
-                "5. Block a User\n6. View Store Statistics\n7. Create a Store\n8. Delete Account\n9. Exit\n10. Export\n");
-        int choice = scanner.nextInt();
-        scanner.nextLine();
-        switch (choice) {
-            case 1: {
-                sendNewMailSeller(scanner, seller);
-                break;
-            }
-            case 2: {
-                viewMessages(scanner, seller);
-                break;
-            }
-            case 3: {
-                editMessage(scanner, seller);
-                break;
-            }
-            case 4: {
-                deleteMessage(scanner, seller);
-                break;
-            }
-            case 5: {
-                blockUser(scanner, seller);
-                break;
-            }
-            case 6: {
-                System.out.println("Would you like to sort the Statistics?");
-                System.out.println("1. Yes\n2. No");
-                int sortStats = scanner.nextInt();
-                //scanner.nextLine();
+        boolean invalidinput = true;
+        do {
+            int choice = 0;
+            System.out.printf("1. Send a new message\n2. View messages\n3. Edit message\n4. Delete message\n" +
+                    "5. Block a User\n6. View Store Statistics\n7. Create a Store\n8. Delete Account\n9. Exit\n10. Export\n");
+            try {
+                choice = Integer.parseInt(scanner.nextLine());
+                invalidinput = false;
+                switch (choice) {
+                    case 1: {
+                        sendNewMailSeller(scanner, seller);
+                        invalidinput = false;
+                        break;
+                    }
+                    case 2: {
+                        viewMessages(scanner, seller);
+                        invalidinput = false;
+                        break;
+                    }
+                    case 3: {
+                        editMessage(scanner, seller);
+                        invalidinput = false;
+                        break;
+                    }
+                    case 4: {
+                        deleteMessage(scanner, seller);
+                        invalidinput = false;
+                        break;
+                    }
+                    case 5: {
+                        blockUser(scanner, seller);
+                        invalidinput = false;
+                        break;
+                    }
+                    case 6: {
+                        System.out.println("Would you like to sort the Statistics?");
+                        System.out.println("1. Yes\n2. No");
+                        int sortStats = scanner.nextInt();
+                        //scanner.nextLine();
 
-                // ADD STORE STATS IMPLEMENTATION
-                //seller = (Seller) user;
-                Store store = new Store(seller, seller.getStoreName());
+                        // ADD STORE STATS IMPLEMENTATION
+                        //seller = (Seller) user;
+                        Store store = new Store(seller, seller.getStoreName());
 
-                scanner.nextLine();
-                if (sortStats == 1) {
-                    store.printSellerDashboardSorted(seller);
-                } else if (sortStats == 2) {
-                    store.printSellerDashboard(seller);
+                        scanner.nextLine();
+                        if (sortStats == 1) {
+                            store.printSellerDashboardSorted(seller);
+                        } else if (sortStats == 2) {
+                            store.printSellerDashboard(seller);
+                        }
+
+                        invalidinput = false;
+                        // end of added
+                        break;
+                    }
+                    case 7: {
+                        addStore(scanner, seller);
+                        break;
+                    }
+                    case 8: {
+                        boolean deleted = deleteAccount(scanner, seller);
+                        return !deleted;
+                    }
+                    case 9: {
+                        return false;
+                        //break;
+                    }
+                    case 10: {
+                        System.out.println("Please input a file path to write to ending in .csv");
+                        String input = scanner.nextLine();
+                        Messenger.convertToCSV(input, seller);
+                        invalidinput = false;
+                        break;
+                    }
+                    default: {
+                        System.out.println("Invalid Input! Please enter a number 1-10.");
+                        invalidinput = true;
+                    }
                 }
+            } catch(NumberFormatException nfe) {
+                System.out.println("Invalid Input! Please enter a valid number.");
+                invalidinput = true;
+            }
 
-
-                // end of added
-                break;
-            }
-            case 7 : {
-                addStore(scanner, seller);
-                break;
-            }
-            case 8 : {
-                boolean deleted = deleteAccount(scanner, seller);
-                return !deleted;
-            }
-            case 9: {
-                return false;
-                //break;
-            }
-            case 10: {
-                System.out.println("Please input a file path to write to ending in .csv");
-                String input = scanner.nextLine();
-                Messenger.convertToCSV(input, seller);
-            }
-        }
+        } while(invalidinput);
         return true;
     }
     // This method represents the menu given that the user is a customer
