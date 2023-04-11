@@ -3,16 +3,24 @@ package pj4;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
+/**
+ * Class Message
+ * The message class represents individual messages sent between different users.
+ * It takes String objects and converts the text to Message objects which can be stored.
+ *
+ * @author Amelia Williams, Meha Kavoori, Anish Puri, Tyler Barnett
+ *
+ * @version 04/10/2023
+ */
 // following class implements Serializabe and Comparable<Message> so that the messages can be compared
 public class Message implements Serializable, Comparable<Message> {
-    private boolean read;
-    private User sender;
-    private User receiver;
-    private User messageOwner;
-    private String message;
-    private String createDate;
-    private boolean disappearing;
+    private boolean read; // determines if message has been read or not
+    private User sender; // represents user who sent message
+    private User receiver; // represents user who recieved message
+    private User messageOwner; // represents users who own message
+    private String message; // represents the message's text
+    private String createDate; // represents the date message was sent
+    private boolean disappearing; // represents whether or not the message is one that dissapears
 
     private static final long serialVersionUID = 1L;
 
