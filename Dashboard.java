@@ -156,36 +156,40 @@ public class Dashboard {
     }
     // This method represents the menu given that the user is a customer
     public static boolean customerMenu(Scanner scanner, Customer c) {
-        System.out.printf("1. Send a new message\n2. View messages\n3. Edit message\n4. Delete message\n" +
+        boolean invalidInput = false;
+        do{
+            int choice = 0;
+            System.out.printf("1. Send a new message\n2. View messages\n3. Edit message\n4. Delete message\n" +
                 "5. Block a User\n6. View Store Statistics\n7. Delete Account\n8. Exit\n9. Export\n");
-        int choice = scanner.nextInt();
-        scanner.nextLine();
-        switch (choice) {
-            case 1: {
-                sendNewMailCustomer(scanner, c);
-                break;
-            }
-            case 2: {
-                viewMessages(scanner, c);
-                break;
-            }
-            case 3: {
-                editMessage(scanner, c);
-                break;
-            }
-            case 4: {
-                deleteMessage(scanner, c);
-                break;
-            }
-            case 5: {
-                blockUser(scanner, c);
-                break;
-            }
-            case 6: {
-                System.out.println("Would you like to sort the Statistics?");
-                System.out.println("1. Yes\n2. No");
-                int sortStats = scanner.nextInt();
-                scanner.nextLine();
+        try{
+            choice = Integer.parseInt(scanner.nextLine());
+            invalidInput = false;
+            switch (choice) {
+                case 1: {
+                    sendNewMailCustomer(scanner, c);
+                    break;
+                }
+                case 2: {
+                    viewMessages(scanner, c);
+                    break;
+                }
+                case 3: {
+                    editMessage(scanner, c);
+                    break;
+                }
+                case 4: {
+                    deleteMessage(scanner, c);
+                    break;
+                }
+                case 5: {
+                    blockUser(scanner, c);
+                    break;
+                }
+                case 6: {
+                    System.out.println("Would you like to sort the Statistics?");
+                    System.out.println("1. Yes\n2. No");
+                    int sortStats = scanner.nextInt();
+                    scanner.nextLine();
 
                 // newly added
                 /*
@@ -198,23 +202,31 @@ public class Dashboard {
                 }
                 // added finish
                  */
-                break;
-            }
-            case 7: {
-                boolean deleted = deleteAccount(scanner, c);
-                return !deleted;
+                    break;
+                }
+                case 7: {
+                    boolean deleted = deleteAccount(scanner, c);
+                    return !deleted;
                 //break;
-            }
-            case 8: {
-                return false;
+                }
+                case 8: {
+                    return false;
                 //break;
+                }
+                case 9: {
+                    System.out.println("Please input a file path to write to ending in .csv");
+                    String input = scanner.nextLine();
+                    Messenger.convertToCSV(input, c);
+                }
+                default: {
+                    System.out.println("Invalid Input! Please enter a number 1-10.");
+                    invalidInput = true;
+                }
             }
-            case 9: {
-                System.out.println("Please input a file path to write to ending in .csv");
-                String input = scanner.nextLine();
-                Messenger.convertToCSV(input, c);
-            }
-        }
+        } catch(NumberFormatException nfe) {
+            System.out.println("Invalid Input! Please enter a valid number.");
+            invalidInput = true;}
+        } while(invalidInput);
         return true;
     }
     // this method allows for desires messages between users to be viewed
