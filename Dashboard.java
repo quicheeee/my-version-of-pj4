@@ -258,6 +258,7 @@ public class Dashboard {
 
             while (true)
             {
+
                 System.out.println("Which message would you like to edit:");
                 int i = scanner.nextInt();
                 scanner.nextLine();
