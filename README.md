@@ -21,7 +21,7 @@ CS180 project 4 repo
     
   Customer Class
   
-    The customer class represents a customer user and extends the User class. The customer class extends all of the User Class' methods and has additional 
+    The customer class represents a customer user and extends the User class and implements Serializable interface. The customer class extends all of the User Class' methods and has additional 
     ones like a can message method which checks if the Customer can message another user. The customer has a private field store List which is a list of
     sellers that the customer can add to. This class has been tested through integration with the parent user class' methods.
     
@@ -45,22 +45,22 @@ CS180 project 4 repo
   
   Messenger2 Class
   
-  	The Messenger2 class is separate from the Messenger Class and works directly with the Seller Class specifically. The constructor takes in the 
+  	The Messenger2 class is separate from the Messenger Class and deals more with the specifics of editing messages. The constructor takes in the 
 	private fields customer, seller and store. The class also has ArrayList objects which represent the individual messages sent between the customer
 	and the seller. The class' methods include getters and setters for the private fields as well as additional methods such as editMessage, 
-	custDeleteMessage and sellDeleteMessage. So this class more or less acts as a message editor for users. The class has been tested to see if it works together with the messenger class and it does allow messages to be edited and manipulate when prompted to. The Messenger2 class also implements
+	custDeleteMessage and sellDeleteMessage. So this class more or less acts as a message editor for users. The class has been tested to see if it works together with the messenger class and it does allow messages to be edited and manipulate when prompted to. The Messenger2 class also implements the Serializable interface
 	
   Message Class
   	
 	This class represents individual messages which are sent between users. The message class has private fields sender, receiver, messageOwner,
 	message, createDate, and disappearing. The message class implements Serializable as well as Comparable. The message class has been tested through 
-	test cases where messages were exchanged between users. Within this messenger class we also implanted a method which will convert messages between users into a .csv file so that they can be read in a spreadsheet format.
+	test cases where messages were exchanged between users. Within this messenger class we also implanted a method which will convert messages between users into a .csv file so that they can be read in a spreadsheet format. The Message Class hass been tested through the test cases listed below as well.
   
   Store Class
   
   	This class represents the Store object. Its constructor takes the parameters of the store name and the store's seller. it has methods that get
 	how many customers have been in contact with it as well as void methods which print out the sorted values desired by the user. The store class
-	implements Serializable.
+	implements Serializable. The Store class has also been tested with through local test cases.
   
   User Not Found exception
   
@@ -71,22 +71,38 @@ CS180 project 4 repo
   	This exception is thrown when an attempted sign in lacks the correct password or email. It has been tested in cases where access cannot
 	be granted due to incorrect password, incorrect email, or when both are incorrect.
 
-  Test Cases
+  Test Cases 
+  
   The first test case creates a seller (Seller 1). 
+  
   The second test case creates a customer (Customer 1). 
+  
   The third test case creates a second seller (Seller 2). 
+  
   The fourth test case creates a second customer (Customer 2). 
+  
   The fifth test case has Customer 2 login, send a message ("hi") to Seller 2 via the selecting a customer option, and then exiting.
+  
   The sixth test case has 
+  
     1. Customer 2 login, 
+	
     2. See the "You have NEW Messages" indicator, 
+	
     3. Select to view messages, 
+	
     4. Select the message from Seller 1 to view
+	
     5. Send a new message
+	
         --Search for a seller to message using their email
+		
         --Select Seller 1 to message from results
+		
         --Send "greetings"
+		
     6. Select to Edit Message
+	
         --Select the message to Seller 1
 
         
