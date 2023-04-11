@@ -3,14 +3,24 @@ package pj4;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
-
+/**
+ * Seller class
+ *
+ * The Seller class represents a seller object which is a type of user that interacts with
+ * users of its type and customers. An intance of the class is created with attributes name, 
+ * email and password.
+ *
+ * @author Amelia Williams, Meha Kavoori, Anish Puri, Tyler Barnett
+ * @version 4/10/2023
+ *
+ */
 public class Seller extends User {
-    private Customer[] customerList;
+    private Customer[] customerList; // Seller's array of Customers
 
-    private ArrayList<Store> listOfStores;
+    private ArrayList<Store> listOfStores; // ArrayList of Seller's stores
 
-    private static final long serialVersionUID = 6387730094462016452L;
-    private String storeName;
+    private static final long serialVersionUID = 6387730094462016452L; 
+    private String storeName;  // name for Seller's store
 
 
 // the constructor uses super for some of its fields because it extends User
