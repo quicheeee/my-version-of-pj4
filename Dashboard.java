@@ -1,5 +1,7 @@
 package pj4;
 import java.util.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
 
 public class Dashboard {
 
@@ -9,45 +11,49 @@ public class Dashboard {
         boolean invalidinput = true;
         while(invalidinput){
             System.out.printf("Would you like to:\n1. Create an Account\n2. Sign Into an Account\n");
-            int input = Integer.parseInt(scanner.nextLine());
-            if(input == 1) {
-                invalidinput = createAccount(scanner);
-            } else if (input == 2) {
-                //Sign In To an Account
-                invalidinput = false;
-                System.out.println("What is your email address?");
-                String email = scanner.nextLine();
-                System.out.println("What is your password?");
-                String password = scanner.nextLine();
-                User user = User.signIn(email, password);
-                if(user != null) {
-                    if (Messenger.existsUnreadMessagesForUser(user))
-                        System.out.println("You have NEW messages!!!");
+            try {
+                int input = Integer.parseInt(scanner.nextLine());
+                if(input == 1) {
+                    invalidinput = createAccount(scanner);
+                } else if (input == 2) {
+                    //Sign In To an Account
+                    invalidinput = false;
+                    System.out.println("What is your email address?");
+                    String email = scanner.nextLine();
+                    System.out.println("What is your password?");
+                    String password = scanner.nextLine();
+                    User user = User.signIn(email, password);
+                    if(user != null) {
+                        if (Messenger.existsUnreadMessagesForUser(user))
+                            System.out.println("You have NEW messages!!!");
 
-                    boolean cont = true;
-                    do {
-                        System.out.println("\nWhat action would you like to take:");
-                        if (user instanceof Customer) {
-                            cont = customerMenu(scanner, (Customer) user);
-                        } else if (user instanceof Seller) {
-                            cont = sellerMenu(scanner, (Seller) user);
-                        }
-                    } while(cont);
-                } else if (user == null){
-                    System.out.println("Incorrect user id or password");
+                        boolean cont = true;
+                        do {
+                            System.out.println("\nWhat action would you like to take:");
+                            if (user instanceof Customer) {
+                                cont = customerMenu(scanner, (Customer) user);
+                            } else if (user instanceof Seller) {
+                                cont = sellerMenu(scanner, (Seller) user);
+                            }
+                        } while(cont);
+                    } else if (user == null){
+                        System.out.println("Incorrect user id or password");
+                    }
+
+                } else {
+                    System.out.println("Invalid Input");
+                    invalidinput = true;
                 }
-
-            } else {
-                System.out.println("Invalid Input");
-                invalidinput = true;
+            } catch (Exception ex) {
+                System.out.println("Invalid Input. Exiting...");
+                System.out.println(ex.getMessage());
             }
         }
-
     }
 
     private static boolean sellerMenu(Scanner scanner, Seller seller) {
-        System.out.printf("1. Send a new message\n2. View messages\n3. Block a User\n4. View Store Statistics\n" +
-                "5. Create a Store\n6. Delete Account\n7. Exit\n");
+        System.out.printf("1. Send a new message\n2. View messages\n3. Block a User\n4. Export\n5. Import\n" +
+                "6. Create a Store\n7. Delete Account\n8. Add Filters\n9. Exit\n");
         int choice = scanner.nextInt();
         scanner.nextLine();
         switch (choice) {
@@ -63,24 +69,33 @@ public class Dashboard {
                 blockUser(scanner, seller);
                 break;
             }
-            case 4: {
-                 System.out.println("Would you like to sort the Statistics?");
-                System.out.println("1. Yes%n2. No");
-                int sortStats = scanner.nextInt();
-                scanner.nextLine();
+            case 4: {//Export write code in method
+                exportText(scanner, seller);
                 break;
             }
             case 5 : {
-                addStore(scanner, seller);
+                importText(scanner, seller);
                 break;
             }
             case 6 : {
+                addStore(scanner, seller);
+                break;
+            }
+            case 7 : {
                 boolean deleted = deleteAccount(scanner, seller);
                 return !deleted;
             }
-            case 7: {
+            case 8 : {
+                addFilters(scanner, seller);
+                break;
+            }
+            case 9: {
                 return false;
                 //break;
+            }
+            default: {
+                System.out.println("Invalid input");
+                break;
             }
         }
         return true;
@@ -88,7 +103,7 @@ public class Dashboard {
 
     public static boolean customerMenu(Scanner scanner, Customer c) {
         System.out.printf("1. Send a new message\n2. View conversations\n" + "3. Block a User\n" +
-                "4. View Store Statistics\n5. Delete Account\n6. Exit\n");
+                "4. Export\n5. Import\n6. Delete Account\n7. Add Filters\n8. Exit\n");
         int choice = scanner.nextInt();
         scanner.nextLine();
         switch (choice) {
@@ -104,16 +119,12 @@ public class Dashboard {
                 blockUser(scanner, c);
                 break;
             }
-            case 4: {
-                //System.out.println("Would you like to import a text file?");
-                //System.out.println("1. Yes%n2. No");
-                
+            case 4: { //Export write code in method
+                exportText(scanner, c);
                 break;
             }
-            case 5: {
-                //System.out.println("Would you like to export a conversation as a .csv file?");
-                //System.out.println("1. Yes%n2. No");
-                
+            case 5 : {
+                importText(scanner, c);
                 break;
             }
             case 6: {
@@ -121,9 +132,17 @@ public class Dashboard {
                 return !deleted;
                 //break;
             }
-            case 7: {
+            case 7 : {
+                addFilters(scanner, c);
+                break;
+            }
+            case 8: {
                 return false;
                 //break;
+            }
+            default: {
+                System.out.println("Invalid input");
+                break;
             }
         }
         return true;
@@ -161,7 +180,8 @@ public class Dashboard {
         else {
             int count = 1;
             for (Message m : messages) {
-                System.out.println(count++ + "  [" + m.getSender().getName() + "] " + m.getMessage());
+                String temp = current.applyFilters(m.getMessage());
+                System.out.println(count++ + "  [" + m.getSender().getName() + "] " + temp);
             }
 
             while (true)
@@ -461,21 +481,107 @@ public class Dashboard {
     }
 
     private static void addStore(Scanner scanner, Seller seller) {
-        while (true) {
-            System.out.println("What would you like your store to be named?");
-            String storeName = scanner.nextLine();
-            while (storeName.trim().equals("")) {
-                System.out.println("Please enter a valid store name.");
+        System.out.println("What would you like your store to be named?");
+        String storeName = scanner.nextLine();
+        while (storeName.trim().equals("")) {
+            System.out.println("Please enter a valid store name.");
+        }
+        try {
+            User.addNewStore(seller, storeName.trim());
+            System.out.println("Store added.");
+            return;
+        } catch (IllegalArgumentException ex) {
+            System.out.println(ex.getMessage());
+            return;
+        }
+    }
+
+    private static void importText(Scanner scanner, User user) {
+        ArrayList<Conversation> convs = Messenger.getConversationsForUser(user);
+
+        if (convs.size() == 0)
+            System.out.println("There are no conversations to import to.");
+        else {
+            printConversationList(convs, user);
+
+            int i = getChosenNumber(scanner, "Which conversation would you like to import to:", convs.size());
+            System.out.println("Please input the file path of the text file to import:");
+            String input = scanner.nextLine();
+            String message = readFile(input);
+            if (message == null)
+                System.out.println("File could not be read");
+            else {
+                Messenger.addMessageToConversation(convs.get(i - 1), user, message, false);
+                System.out.println("Your message has been imported!");
             }
-            try {
-                User.addNewStore(seller, storeName.trim());
-                //seller.addStore(storeName.trim());
-                System.out.println("Store added.");
-                return;
-            } catch (IllegalArgumentException ex) {
-                System.out.println(ex.getMessage());
-                return;
+        }
+    }
+
+    private static String readFile(String fileName) {
+        try {
+            BufferedReader bfr = new BufferedReader(new FileReader(fileName));
+            StringBuilder sb = new StringBuilder();
+            String line = "";
+
+            while ((line = bfr.readLine()) != null) {
+                if (!sb.toString().isEmpty())
+                    sb.append("\n");
+                sb.append(line);
             }
+            return sb.toString();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private static void exportText(Scanner scanner, User user) {
+        ArrayList<Conversation> convs = Messenger.getConversationsForUser(user);
+
+        if (convs.size() == 0)
+            System.out.println("There are no conversations to import to.");
+        else {
+            printConversationList(convs, user);
+
+            System.out.println("Which conversation would you like to export:");
+            String convNums = scanner.nextLine();
+            System.out.println("Please input a file path to write to ending in .csv");
+            String input = scanner.nextLine();
+
+            //Write your export code here
+
+        }
+    }
+
+    private static void addFilters(Scanner scanner, User user)
+    {
+        ArrayList<String> filters = user.getFilters();
+
+        if (filters.size() == 0)
+            System.out.println("There are no filters.");
+        else {
+            int count = 1;
+            System.out.printf("%3s %15s %15s\n", "Num", "Original", "Replacement");
+            for (int i = 0; i < filters.size(); i += 2) {
+                System.out.printf("%3d %15s %15s\n", count++, filters.get(i), filters.get(i + 1));
+            }
+        }
+
+        System.out.println("1. Add a new filter\n2. Go back");
+        int num = getChosenNumber(scanner, "Pick an option:", 2);
+
+        if (num == 1)
+        {
+            String original = "";
+            while (original.equals("")) {
+                System.out.println("Please input what you want to filter:");
+                original = scanner.nextLine();
+            }
+            System.out.println("Please enter the replacement string or hit enter to choose default (****):");
+            String replacement = scanner.nextLine();
+
+            if (replacement.equals(""))
+                replacement = "****";
+            user.addFilter(original, replacement);
         }
     }
 
