@@ -253,16 +253,60 @@ public class RunLocalTest {
             // Trims the output and verifies it is correct.
             expected = expected.replaceAll("\r\n", "\n");
             output = output.replaceAll("\r\n", "\n");
-            assertEquals("Make sure your store name is valid and all inputs are valid.",
+            assertEquals("Make sure that the correct store was selected",
                     expected.trim(), output.trim());
         }
 
+        @Test(timeout = 1000)
+        public void testCaseSix() {
+            String input = "2" + System.lineSeparator() +
+                    "krusty@gmail.com" + System.lineSeparator() +
+                    "krusty123" + System.lineSeparator() +
+                    "2" + System.lineSeparator() +
+                    "1" + System.lineSeparator() + "1" +
+                    System.lineSeparator() + "2" + System.lineSeparator()
+                    + "spongebob" + System.lineSeparator() + "1" +
+                    System.lineSeparator() + "Greetings Spongebob!"
+                    + System.lineSeparator() + "3" + System.lineSeparator()
+                    + "1" + System.lineSeparator() + "Greetings Spongebob! ARGHHH!!!"
+                    + System.lineSeparator() + "9";
 
+            // Pair the input with the expected result
+            String expected = "Welcome to the messaging platform!" + System.lineSeparator() +
+                    "Would you like to:\n1. Create an Account\n2. Sign Into an Account" + System.lineSeparator() +
+                    "What is your email address?" + System.lineSeparator() +
+                    "What is your password?" + System.lineSeparator() + "You have NEW messages!!!" + System.lineSeparator() +
+                    "What action would you like to take:\n1. Send a new message\n2. View messages\n3. Edit message\n4. Delete message\n" +
+                    "5. Block a User\n6. View Store Statistics\n7. Create a Store\n8. Delete Account\n9. Exit" + System.lineSeparator() +
+                    "Which message would you like to view:" + System.lineSeparator() +
+                    "What action would you like to take:\n1. Send a new message\n2. View messages\n3. Edit message\n4. Delete message\n" +
+                    "5. Block a User\n6. View Store Statistics\n7. Create a Store\n8. Delete Account\n9. Exit" + System.lineSeparator() +
+                    "Would you like to:\n1. Select a customer to message\n2. Search for a customer to message" + System.lineSeparator() +
+                    "Please enter customer you are searching for:" + System.lineSeparator() + "Please select a customer to message:" +
+                    System.lineSeparator() + "What message would you like to send?" + System.lineSeparator() +
+                    "Your message is sent! Thank you." + System.lineSeparator() + "What action would you like to take:\n" +
+                    "1. Send a new message\n2. View messages\n3. Edit message\n4. Delete message\n" +
+                    "5. Block a User\n6. View Store Statistics\n7. Create a Store\n8. Delete Account\n9. Exit" + System.lineSeparator() +
+                    "Which message would you like to edit:" + System.lineSeparator() + "Please type your message:" + System.lineSeparator()
+                    + "Your message has been edited!" + System.lineSeparator() + "What action would you like to take:\n" +
+                    "1. Send a new message\n2. View messages\n3. Edit message\n4. Delete message\n" +
+                    "5. Block a User\n6. View Store Statistics\n7. Create a Store\n8. Delete Account\n9. Exit" + System.lineSeparator();
+
+
+            // Runs the program with the input values
+            receiveInput(input);
+            Dashboard.main(new String[0]);
+
+            // Retrieves the output from the program
+            String output = getOutput();
+
+            // Trims the output and verifies it is correct.
+            expected = expected.replaceAll("\r\n", "\n");
+            output = output.replaceAll("\r\n", "\n");
+            assertEquals("Make sure that the correct store was selected",
+                    expected.trim(), output.trim());
+        }
     }
 
 
 }
-
-
-
-
