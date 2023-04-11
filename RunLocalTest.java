@@ -352,7 +352,8 @@ public class RunLocalTest {
 
 // spongebob logs in, views messages, puts an invalid input, then views correct message from krusty, tries to delete the message
 // but puts an invalid input, deletes the message,then views the message to find there are none.
-// then spongebob blocks the user (seller) bob then exits
+// then spongebob blocks the user (seller) bob then exi1
+// ts
 
             // Runs the program with the input values
             receiveInput(input);
@@ -367,7 +368,61 @@ public class RunLocalTest {
             assertEquals("Make sure that all your inputs are correct and your messages were correct ",
                     expected.trim(), output.trim());
         }
+
+
+        @Test(timeout = 1000)
+        public void testCaseEight() {
+            String input = "2" + System.lineSeparator() +
+                    "bob@gmail.com" + System.lineSeparator() +
+                    "bob123" + System.lineSeparator() +
+                    "1" + System.lineSeparator() +
+                    "2" + System.lineSeparator() + "spongebob" +
+                    System.lineSeparator() + "1" + System.lineSeparator()
+                    + "1" + System.lineSeparator() + "Hi Karen!" +
+                    System.lineSeparator() + "7"
+                    + System.lineSeparator() + "Bob's Falafels" + System.lineSeparator()
+                    + "9" + System.lineSeparator();
+
+            // Pair the input with the expected result
+            String expected = "Welcome to the messaging platform!" + System.lineSeparator() +
+                    "Would you like to:\n1. Create an Account\n2. Sign Into an Account" + System.lineSeparator() +
+                    "What is your email address?" + System.lineSeparator() +
+                    "What is your password?" + System.lineSeparator() + "You have NEW messages!!!\n" + System.lineSeparator() +
+                    "What action would you like to take:\n1. Send a new message\n2. View messages\n3. Edit message\n4. Delete message\n" +
+                    "5. Block a User\n6. View Store Statistics\n7. Create a Store\n8. Delete Account\n9. Exit" + System.lineSeparator() +
+                    "Would you like to:\n" + "1. Select a customer to message\n" + "2. Search for a customer to message" + System.lineSeparator() +
+
+                    "Please enter customer you are searching for:" + System.lineSeparator() + "No customers match" + System.lineSeparator() +
+                    "What action would you like to take:\n1. Send a new message\n2. View messages\n3. Edit message\n4. Delete message\n" +
+                    "5. Block a User\n6. View Store Statistics\n7. Create a Store\n8. Delete Account\n9. Exit" +
+                    System.lineSeparator() + "Would you like to:\n" + "1. Select a customer to message\n" + "2. Search for a customer to message" + System.lineSeparator() +
+                    "1. karen@gmail.com\n" + "Please select a customer to message:" + System.lineSeparator() + "What message would you like to send?" +
+                    System.lineSeparator() + "Your message is sent! Thank you." + System.lineSeparator() +
+                    "What action would you like to take:\n1. Send a new message\n2. View messages\n3. Edit message\n4. Delete message\n" +
+                    "5. Block a User\n6. View Store Statistics\n7. Create a Store\n8. Delete Account\n9. Exit" + System.lineSeparator() +
+                    "What would you like your store to be named?" + System.lineSeparator() + "What action would you like to take:\n" +
+                    "1. Send a new message\n2. View messages\n3. Edit message\n4. Delete message\n" +
+                    "5. Block a User\n6. View Store Statistics\n7. Create a Store\n8. Delete Account\n9. Exit" + System.lineSeparator();
+
+// Seller bob logs in with email and passwords, tries to send message, searches for spongebob, can't find spongebob, searches for karen
+            // sends message to karen, creates store named Bob's Falafels, exits.
+
+            // Runs the program with the input values
+            receiveInput(input);
+            Dashboard.main(new String[0]);
+
+            // Retrieves the output from the program
+            String output = getOutput();
+
+            // Trims the output and verifies it is correct.
+            expected = expected.replaceAll("\r\n", "\n");
+            output = output.replaceAll("\r\n", "\n");
+            assertEquals("Make sure that all your inputs are correct and your messages were correct ",
+                    expected.trim(), output.trim());
+        }
+        // customer karen logs in, views message, searches for store to send message sends message to bob's falafels, deletes account, exits
     }
-
-
 }
+
+
+
