@@ -4,11 +4,21 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.*;
-
+/**
+ * Messenger Class
+ *
+ * This class represents a Messenger object. The class is used to write, edit
+ * and search messages in messager.ser file.
+ *
+ * @authoer Amelia Williams, Meha Kavoori, Anish Puri, Tyler Barnett
+ *
+ * @version 04/10/2023
+ */
 public class Messenger {
-    private static final String FILENAME = "messages.ser";
-    private static ArrayList<Message> messages = null;
-
+    private static final String FILENAME = "messages.ser"; // filename for file that holds messages
+    private static ArrayList<Message> messages = null; // arrList of messages
+    // method scans through contents of messages ArrayList and looks for when they aren't null
+    // where they are not null, message objects from the messages arrList will be wrtten to the messages.ser file
     public static ArrayList<Message> getMessages() {
         if (Messenger.messages != null)
             return Messenger.messages;
@@ -38,7 +48,7 @@ public class Messenger {
         Messenger.messages = temp;
         return Messenger.messages;
     }
-
+    // writes additional date and time steps to message.ser file
     public static void sendNewMessage(User sender, User receiver, String message, Boolean disappearing) {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         String dateString = dtf.format(LocalDateTime.now());
@@ -52,7 +62,7 @@ public class Messenger {
         temp.add(m2);
         Messenger.writeMessages();
     }
-
+    // writes messages from messages array to Messenger file
     public static void writeMessages() {
         try {
             File f = new File(Messenger.FILENAME);
@@ -67,7 +77,7 @@ public class Messenger {
             e.printStackTrace();
         }
     }
-
+    // returns list of messages based on inputted user
     public static ArrayList<Message> getMessagesForUser(User u) {
         ArrayList<Message> temp = Messenger.getMessages();
         ArrayList<Message> results = new ArrayList<Message>();
@@ -85,7 +95,7 @@ public class Messenger {
         }
         return results;
     }
-
+    // method edits inputted message to be inputted String
     public static void editMessage(Message m, String newMessage) {
         StringBuilder sb = new StringBuilder();
         //sb.append(m.getMessage());
@@ -101,7 +111,7 @@ public class Messenger {
         }
         Messenger.writeMessages();
     }
-
+    // method searches through messages arrList to find related messages
     private static Message findRelatedMessage(Message m) {
         ArrayList<Message> temp = Messenger.getMessages();
         for (Message rel : temp) {
@@ -110,13 +120,13 @@ public class Messenger {
         }
         return null;
     }
-
+    // method removes message from arrList and overwrites messages file
     public static void deleteMessage(Message m) {
         ArrayList<Message> temp = Messenger.getMessages();
         temp.remove(m);
         writeMessages();
     }
-
+    // allows inputted user's messages to be deleted
     public static void deleteMessagesForUser(User user) {
         ArrayList<Message> temp = Messenger.getMessages();
         ArrayList<Message> removeList = new ArrayList<Message>();
@@ -131,7 +141,7 @@ public class Messenger {
         }
         writeMessages();
     }
-
+    // checks if inputted user has unreadmessages
     public static boolean existsUnreadMessagesForUser(User user) {
         ArrayList<Message> temp = Messenger.getMessages();
         for (Message m : temp) {
@@ -140,7 +150,7 @@ public class Messenger {
         }
         return false;
     }
-
+    // things method takes given user's messages and adds headers, and adds them to a String[]
     public static List<String[]> createCsvData(User u) {
         List<String[]> list = new ArrayList<>();
         String [] headers = {"Timestamp", "Sender", "Receiver", "Message"};
@@ -151,7 +161,7 @@ public class Messenger {
         }
         return list;
     }
-
+    // This method takes user data and creates a new CSV file with said data
     public static void convertToCSV(String fileName, User u){
         File csvOutput = new File(fileName);
         try{
