@@ -87,8 +87,9 @@ public class Messenger {
     }
 
     public static void editMessage(Message m, String newMessage) {
-        StringBuilder sb = new StringBuilder(m.getMessage());
-        sb.append("\n");
+        StringBuilder sb = new StringBuilder();
+        //sb.append(m.getMessage());
+        //sb.append("\n");
         sb.append(newMessage);
 
         Message rel = Messenger.findRelatedMessage(m);
