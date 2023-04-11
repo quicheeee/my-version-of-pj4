@@ -27,7 +27,7 @@ import static org.junit.Assert.*;
 /**
  * A framework to run public test cases.
  *
- * <p>Purdue University -- CS18000 -- Summer 2022</p>
+ * <p>Purdue University -- CS18000 -- Spring 2023</p>
  *
  * @author Meha Kavoori
  * @version 4/10/2023
@@ -47,7 +47,7 @@ public class RunLocalTest {
     /**
      * A set of public test cases.
      *
-     * <p>Purdue University -- CS18000 -- Summer 2022</p>
+     * <p>Purdue University -- CS18000 -- Spring 2023</p>
      *
      * @author Meha Kavoori
      * @version 4/10/2023
@@ -292,6 +292,8 @@ public class RunLocalTest {
                     "1. Send a new message\n2. View messages\n3. Edit message\n4. Delete message\n" +
                     "5. Block a User\n6. View Store Statistics\n7. Create a Store\n8. Delete Account\n9. Exit" + System.lineSeparator();
 
+            //krusty logs in as a seller, views a message from spongebob, sends a message to spongebob by searching for him,
+            // sends a message, then edits the message, then exits
 
             // Runs the program with the input values
             receiveInput(input);
@@ -303,7 +305,66 @@ public class RunLocalTest {
             // Trims the output and verifies it is correct.
             expected = expected.replaceAll("\r\n", "\n");
             output = output.replaceAll("\r\n", "\n");
-            assertEquals("Make sure that the correct store was selected",
+            assertEquals("Make sure that all your inputs are correct, all your messages were correct, and ",
+                    expected.trim(), output.trim());
+        }
+
+        @Test(timeout = 1000)
+        public void testCaseSeven() {
+            String input = "2" + System.lineSeparator() +
+                    "spongebob@gmail.com" + System.lineSeparator() +
+                    "spongebob123" + System.lineSeparator() +
+                    "2" + System.lineSeparator() +
+                    "2" + System.lineSeparator() + "1" +
+                    System.lineSeparator() + "4" + System.lineSeparator()
+                    + "2" + System.lineSeparator() + "1" +
+                    System.lineSeparator() + "2"
+                    + System.lineSeparator() + "5" + System.lineSeparator()
+                    + "Bob" + System.lineSeparator() + "1"
+                    + System.lineSeparator() + "9" + System.lineSeparator();
+
+            // Pair the input with the expected result
+            String expected = "Welcome to the messaging platform!" + System.lineSeparator() +
+                    "Would you like to:\n1. Create an Account\n2. Sign Into an Account" + System.lineSeparator() +
+                    "What is your email address?" + System.lineSeparator() +
+                    "What is your password?" + System.lineSeparator() +
+                    "What action would you like to take:\n1. Send a new message\n2. View messages\n3. Edit message\n4. Delete message\n" +
+                    "5. Block a User\n6. View Store Statistics\n7. Create a Store\n8. Delete Account\n9. Exit" + System.lineSeparator() +
+                    "Num          Sender        Receiver New\n" +
+                    "  1          Krusty          Spongebob   N" + System.lineSeparator() +
+                    "Which message would you like to view:" + System.lineSeparator() + "Invalid Input" + System.lineSeparator() + "Which message would you like to view:" +
+                    System.lineSeparator() + "[Krusty] Greetings Spongebob! ARGHHH!!!" + System.lineSeparator() +
+                    "What action would you like to take:\n1. Send a new message\n2. View messages\n3. Edit message\n4. Delete message\n" +
+                    "5. Block a User\n6. View Store Statistics\n7. Create a Store\n8. Delete Account\n9. Exit" + System.lineSeparator() +
+                    "Num          Sender        Receiver New\n" +
+                    "  1          Krusty          Spongebob   N\n" + System.lineSeparator() + "Invalid Input\n" +
+                    "Which message would you like to delete:" + System.lineSeparator() + "What action would you like to take:\n" +
+                    "1. Send a new message\n2. View messages\n3. Edit message\n4. Delete message\n" +
+                    "5. Block a User\n6. View Store Statistics\n7. Create a Store\n8. Delete Account\n9. Exit" + System.lineSeparator() +
+                    "There are no messages to view\n" + System.lineSeparator() + "What action would you like to take:\n" +
+                    "1. Send a new message\n2. View messages\n3. Edit message\n4. Delete message\n" +
+                    "5. Block a User\n6. View Store Statistics\n7. Create a Store\n8. Delete Account\n9. Exit" + System.lineSeparator() +
+                    "Please search user you want to block:" + System.lineSeparator() + "1. bob@gmail.com\n" +
+                    "Please select a user to block:" + System.lineSeparator() + "The block was set!\n" + System.lineSeparator() +
+                    "What action would you like to take:\n" +
+                    "1. Send a new message\n2. View messages\n3. Edit message\n4. Delete message\n" +
+                    "5. Block a User\n6. View Store Statistics\n7. Create a Store\n8. Delete Account\n9. Exit" + System.lineSeparator();
+
+// spongebob logs in, views messages, puts an invalid input, then views correct message from krusty, tries to delete the message
+// but puts an invalid input, deletes the message,then views the message to find there are none.
+// then spongebob blocks the user (seller) bob then exits
+
+            // Runs the program with the input values
+            receiveInput(input);
+            Dashboard.main(new String[0]);
+
+            // Retrieves the output from the program
+            String output = getOutput();
+
+            // Trims the output and verifies it is correct.
+            expected = expected.replaceAll("\r\n", "\n");
+            output = output.replaceAll("\r\n", "\n");
+            assertEquals("Make sure that all your inputs are correct and your messages were correct ",
                     expected.trim(), output.trim());
         }
     }
