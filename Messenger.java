@@ -192,5 +192,17 @@ public class Messenger {
 		return false;
 	}
 
+	public static void addMessageToConversation(Conversation conversation, User sender, String message,
+												boolean disappearing) {
+		User receiver;
+		if (sender instanceof Customer)
+			receiver = conversation.getSeller();
+		else
+			receiver = conversation.getCustomer();
+
+		conversation.addMessage(sender, receiver, message, disappearing);
+		Messenger.writeMessages();
+	}
+
 }
 
