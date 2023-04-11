@@ -2,49 +2,58 @@ package pj4;
 
 import java.util.ArrayList;
 import java.io.*;
-
+/**
+ * Messnger2 class
+ *
+ * This class is similar to the Messenger class but it handles individual instances
+ * of editing. It has private fields customer, seller, and store.
+ *
+ * @author Amelia Williams, Meha Kavoori, Anish Puri, Tyler Barnett
+ *
+ * @version 4/10/2023
+ */
 public class Messenger2 implements Serializable {
-    private Customer customer;
-    private Seller seller;
-    private Store store;
+    private Customer customer; // Messenger2's customer field
+    private Seller seller; // Messenger2's seller field
+    private Store store; // Messenger2's store field
 
-    ArrayList<Integer> deletedByCust;
-    ArrayList<Integer> deletedBySell;
-    ArrayList<String> cust2vend;
-    ArrayList<String> vend2cust;
-
+    ArrayList<Integer> deletedByCust; // arrList of messages deleted by Customers
+    ArrayList<Integer> deletedBySell; // arrList of messages deleted by Sellers
+    ArrayList<String> cust2vend; // arrlist of messenges sent to seller from customer
+    ArrayList<String> vend2cust; // arrList of messenges sent customer from seller
+    // require instance variables cust, sell and store
     public Messenger2 (Customer cust, Seller sell, Store store){
-        this.customer = cust;
-        this.seller = sell;
-        this.store = store;
-        vend2cust = new ArrayList<>();
-        cust2vend = new ArrayList<>();
-        deletedByCust = new ArrayList<>();
-        deletedBySell = new ArrayList<>();
+        this.customer = cust; // customer part of message
+        this.seller = sell; // seller part of message
+        this.store = store; // store part of message
+        vend2cust = new ArrayList<>(); // new list of messeges sent to customer from seller
+        cust2vend = new ArrayList<>(); // new list of messages sents to seller from customer
+        deletedByCust = new ArrayList<>(); // new list of messages deleted by the customer
+        deletedBySell = new ArrayList<>(); // new list of messages deleted by the seooer
     }
 
 
-
+    //returns customer
     public Customer getCustomer() {
         return customer;
     }
-
+    // returns Seller
     public Seller getSeller() {
         return seller;
     }
-
+    /// returns store
     public Store getStore() {
         return store;
     }
-
+    // get list of messages sent from customers to soo
     public ArrayList<String> getCust2vend() {
         return cust2vend;
     }
-
+    // gets list of messages sent from seller to customer
     public ArrayList<String> getVend2cust() {
         return vend2cust;
     }
-
+    // gven String of from an old message, a new message, , Stores, and user Id number
     public void editMessage(String old, String newMsg, Customer c, Store st, int idNum){
         if(idNum == 1){
             if(cust2vend.contains(old)){
@@ -61,12 +70,9 @@ public class Messenger2 implements Serializable {
                 System.out.println("You don't have access to this method!");
             }
             else {
-                System.out.println("Message not found!");
-            }
-        }
-    }
-
-
+                System.out.println("Message nS
+    // checks if requested message can be deleted by customer
+    // if possible, when called will delete the message
     public void custDeleteMessage(String m, Customer c, Seller s) {
         if(cust2vend.contains(m)){
             deletedByCust.add(cust2vend.indexOf(m));
@@ -76,7 +82,8 @@ public class Messenger2 implements Serializable {
             System.out.println("Message not found!");
         }
     }
-
+    // checks if requested message can be deleted by seller
+    // if possible, when called will delete the message
     public void sellDeleteMessage(String m, Customer c, Seller s) {
         if(cust2vend.contains(m)){
             deletedBySell.add(cust2vend.indexOf(m));
@@ -86,7 +93,8 @@ public class Messenger2 implements Serializable {
             System.out.println("Message not found!");
         }
     }
-
+    
+    // creates new conversation from customer to seller given store, message sent and customer
     public void cust2vendSend(String s, Customer c, Store st){
         File f = new File("conversations.ser");
         ArrayList<Messenger2> convos = listConversations(f, Messenger2.getNumCreated());
@@ -97,7 +105,7 @@ public class Messenger2 implements Serializable {
             }
         }
     }
-
+    // returns number of messages sent from desired customer to desired store
     public int msgFromCustToStore(Customer c, Store s){
         Messenger2 m = Messenger2.getConversation(c, s);
         int count = 0;
@@ -112,7 +120,7 @@ public class Messenger2 implements Serializable {
             throw new IllegalArgumentException();
         }
     }
-
+    // returns number of messages sent from desired store to desired customer
     public int msgFromStoreToCust(Customer c, Store s){
         Messenger2 m = Messenger2.getConversation(c, s);
         int count = 0;
@@ -127,7 +135,7 @@ public class Messenger2 implements Serializable {
             throw new IllegalArgumentException();
         }
     }
-
+    // returns messages in longer Arraylist conversations when given specific customer and seller
     public ArrayList<String> getMsgsInConvo(Customer c, Seller s){
         ArrayList<String> words = new ArrayList<>();
         for(Store s1: s.getListOfStores()){
@@ -144,6 +152,7 @@ public class Messenger2 implements Serializable {
         }
         return words;
     }
+    // returns conversation from given customer and seller
     public static Messenger2 getConversation(Customer c, Store s){
         File f = new File("conversations.ser");
         ArrayList<Messenger2> convos = listConversations(f, Messenger2.getNumCreated());
@@ -154,6 +163,7 @@ public class Messenger2 implements Serializable {
         }
         return null;
     }
+    // creates conversation.ser file based off of the inputted message which is sent to customer from seller                           
     public void vend2custSend(String m2, Seller s, Customer c){
         File f = new File("conversations.ser");
         ArrayList<Messenger2> convos = listConversations(f, Messenger2.getNumCreated());
@@ -164,7 +174,7 @@ public class Messenger2 implements Serializable {
             }
         }
     }
-
+    // creates conversation.ser file which displays conversation between Customer and Seller from Seller point of view
     public void displayConvoForSeller(Customer c, Seller s, Store st){
         File f = new File("conversations.ser");
         for(Messenger2 m2: listConversations(f, getNumCreated())){
@@ -182,7 +192,7 @@ public class Messenger2 implements Serializable {
             }
         }
     }
-
+    // creates conversation.ser file which displays conversation between Customer and Seller from Customer point of view
     public void displayConvoForCustomer(Customer c, Seller s, Store st){
         File f = new File("conversations.ser");
         for(Messenger2 m2: listConversations(f, getNumCreated())){
@@ -201,7 +211,7 @@ public class Messenger2 implements Serializable {
         }
     }
 
-
+    // method lists all conversations
     public static ArrayList<Messenger2> listConversations (File f, int fileLength) {
             ArrayList<Messenger2> conversations = new ArrayList<>();
             try {
@@ -216,7 +226,7 @@ public class Messenger2 implements Serializable {
             }
             return conversations;
     }
-
+    // method checks if conversations exists already between two parties
     public static boolean newConversation(String s, Customer cust, Seller sell, Store store) {
         File convos = new File("conversations.ser");
         ArrayList<Messenger2> convosList = Messenger2.listConversations(convos, Messenger2.getNumCreated());
@@ -233,6 +243,7 @@ public class Messenger2 implements Serializable {
         return true;
 
     }
+    // method writes the conversations stored in conversation list to file f
     public static void writeConvos(ArrayList<Messenger2> convosList, File f){
         try{
             FileOutputStream fos = new FileOutputStream(f);
@@ -246,7 +257,7 @@ public class Messenger2 implements Serializable {
             e.printStackTrace();
         }
     }
-
+    // gets number messages created
     public static int getNumCreated(){
         File f = new File("numMessagesCreated.txt");
         try{
@@ -258,7 +269,7 @@ public class Messenger2 implements Serializable {
             return 0;
         }
     }
-
+    // sets number messages created
     public static void setNumCreated(int i){
         File f = new File ("numMessagesCreated.txt");
         try{
