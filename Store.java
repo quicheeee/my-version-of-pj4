@@ -8,7 +8,7 @@ import java.util.*;
  * The Store Class represents a Store object. The Store class has methods which allow users to
  * get, set, and access a list of Stores.
  *
- * @author
+ * @author Amelia Williams, Meha Kavoori, Anish Puri, Tyler Barnett
  * @version 4/10/2023
  *
  */
@@ -168,7 +168,7 @@ public class Store implements Serializable {
         }
         return numSellerMessages;
     }
-
+    // returns list of customers based off of sorted messages
     public List<Customer> CustomersSortedNumMessages() {
         List<Customer> customers = new ArrayList<>();
         for (Messenger2 message : messages) {
@@ -181,13 +181,13 @@ public class Store implements Serializable {
         //customers.sort((c1, c2) -> getNumCustomerMessages().get(c2) - getNumCustomerMessages().get(c1));
         return customers;
     }
-
+    // returns sorted String list of Customers' common words
     public List<String> SortedCustCommonWords() {
         List<String> commonWords = new ArrayList<>((Collection) getMostCommonWordsCust());
         Collections.sort(commonWords, Collections.reverseOrder());
         return commonWords;
     }
-
+    // given a specifc customer will print that customer's statistics in a dashboard format
     public void printCustomerDashboard(Customer customer) {
         //  Map<Customer, Integer> customers = getNumCustomerMessages();
         // Map<String, Integer> commonWords = getMostCommonWordsSell();
@@ -218,7 +218,7 @@ public class Store implements Serializable {
         }
 
     }
-
+    // given a specific customer, will print that customer's statistics in a sorted format.
     public void printCustomerDashboardSorted(Customer customer) {
         List<Customer> customers = CustomersSortedNumMessages();
         Map<String, Integer> commonWords = getMostCommonWordsSell();
@@ -232,7 +232,7 @@ public class Store implements Serializable {
 
         // }
     }
-
+    // given a specific seller, a seller's statistic's will be printed in a deashboard format
     public void printSellerDashboard(Seller seller) {
         Map<Customer, Integer> customers = getNumCustomerMessages();
         Map<String, Integer> commonWords = getMostCommonWordsSell();
@@ -256,7 +256,7 @@ public class Store implements Serializable {
             }
         }
     }
-
+    // given a specific seller, a seller's sorted statistic's will be printed in a dashboard format
     public void printSellerDashboardSorted(Seller seller) {
         List<Customer> customers = CustomersSortedNumMessages();
         Map<String, Integer> commonWords = getMostCommonWordsSell();
@@ -280,7 +280,7 @@ public class Store implements Serializable {
             }
         }
     }
-
+    // given the inputted name and seller, method checks if store name already exists
     public static boolean newStore(String name, Seller seller) {
         File list = new File("stores.ser");
         ArrayList<Store> stores = Store.listStores(list, Store.getNumStoresCreated());
@@ -296,7 +296,7 @@ public class Store implements Serializable {
         Store.writeStores(stores, list);
         return true;
     }
-
+    // given the inputted file and filelength, method returns an ArrayList of Stores
     public static ArrayList<Store> listStores(File f, int fileLength) {
         ArrayList<Store> stores = new ArrayList<>();
         try {
@@ -311,7 +311,7 @@ public class Store implements Serializable {
         }
         return stores;
     }
-
+    // method reads numStoresCreated.txt file to get the number of stores created
     public static int getNumStoresCreated(){
         File f = new File("numStoresCreated.txt");
         try{
@@ -323,7 +323,7 @@ public class Store implements Serializable {
             return 0;
         }
     }
-
+    // method sets the number in the nmStoresCreated.txt file
     public static void setNumStoresCreated(int i){
         File f = new File ("numStoresCreated.txt");
         try{
@@ -335,7 +335,7 @@ public class Store implements Serializable {
             e.printStackTrace();
         }
     }
-
+    // given arrList of stores, the method will write to a file the list of the stores.
     public static void writeStores(ArrayList<Store> stores, File f){
         try{
             FileOutputStream fos = new FileOutputStream(f);
